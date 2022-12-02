@@ -1,0 +1,42 @@
+modLoader = "javafml"
+loaderVersion = "[43,)"
+issueTrackerURL = "https://github.com/impleri/item-skills/issues"
+license = "MIT"
+
+[[mods]]
+modId = "itemskills"
+version = "${version}"
+displayName = "Item Skills"
+authors = "impleri"
+description = '''
+A library mod that exposes KubeJS methods to restrict crafting recipes and players' ability to pick up restricted items.
+'''
+#logoFile = ""
+
+[[dependencies.itemskills]]
+modId = "playerskills"
+mandatory = true
+versionRange = "[1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.itemskills]]
+modId = "forge"
+mandatory = true
+versionRange = "[43,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.itemskills]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.19.2,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.itemskills]]
+modId = "architectury"
+mandatory = true
+versionRange = "[6.2.43,)"
+ordering = "AFTER"
+side = "BOTH"

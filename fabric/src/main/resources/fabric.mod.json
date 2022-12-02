@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "itemskills",
+  "version": "${version}",
+  "name": "Item Skills",
+  "description": "A library mod that exposes KubeJS methods to restrict recipes as well as REI and JEI integrations.",
+  "authors": [
+    "impleri"
+  ],
+  "contact": {
+    "homepage": "https://github.com/impleri/item-skills",
+    "sources": "https://github.com/impleri/item-skills",
+    "issues": "https://github.com/impleri/item-skills/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/itemskills/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.impleri.itemskills.fabric.ItemSkillsFabric"
+    ]
+  },
+  "mixins": [
+    "itemskills-common.mixins.json"
+  ],
+  "depends": {
+    "fabric": "*",
+    "minecraft": ">=1.19.2",
+    "architectury": ">=6.2.43",
+    "playerskills": ">=1.0.0"
+  }
+}
