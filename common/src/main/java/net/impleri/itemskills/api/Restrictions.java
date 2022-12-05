@@ -71,7 +71,7 @@ public abstract class Restrictions {
                 .map(restriction -> getFieldValueFor(restriction, fieldName)) // get field value
                 .anyMatch(value -> !value); // do we have any restrictions that deny the action
 
-        ItemSkills.LOGGER.info("Does {} {} for {} have restrictions? {}", item, fieldName, player.getName().getString(), hasRestrictions);
+        ItemSkills.LOGGER.info("Does {} for {} have {} restrictions? {}", item, player.getName().getString(), fieldName, hasRestrictions);
 
         return !hasRestrictions;
     }
@@ -110,9 +110,14 @@ public abstract class Restrictions {
     public static boolean isIdentifiable(ResourceLocation item) {
         return canPlayer(item, "identifiable");
     }
+
     public static boolean isHarmful(ResourceLocation item) {
         return canPlayer(item, "harmful");
     }
+    public static boolean isHarmful(Player player, ResourceLocation item) {
+        return canPlayer(player, item, "harmful");
+    }
+
     public static boolean isWearable(ResourceLocation item) {
         return canPlayer(item, "wearable");
     }

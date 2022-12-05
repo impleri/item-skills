@@ -58,7 +58,16 @@ public class RestrictionJS extends Restriction {
                 return result;
             };
 
-            ConsoleJS.SERVER.info("Set condition for " + id);
+            return this;
+        }
+
+        public Builder unless(Function<PlayerSkillDataJS, Boolean> consumer) {
+            this.condition = (Player player) -> {
+                var result = !consumer.apply(new PlayerSkillDataJS(player));
+                ConsoleJS.SERVER.info("Is " + player.getName().getString() + " affected by this condition? " + result);
+
+                return result;
+            };
 
             return this;
         }
