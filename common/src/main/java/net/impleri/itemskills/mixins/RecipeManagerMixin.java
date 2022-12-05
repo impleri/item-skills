@@ -39,6 +39,7 @@ public class RecipeManagerMixin {
         }
 
         if (!isCraftable(value.get())) {
+            ItemSkills.LOGGER.info("Marking recipe as uncraftable");
             cir.setReturnValue(Optional.empty());
         }
     }
@@ -51,6 +52,7 @@ public class RecipeManagerMixin {
         }
 
         if (!isCraftable(value.get().getSecond())) {
+            ItemSkills.LOGGER.info("Marking recipe as uncraftable");
             cir.setReturnValue(Optional.empty());
         }
     }
@@ -63,6 +65,7 @@ public class RecipeManagerMixin {
         }
 
         if (!isCraftable(value.get())) {
+            ItemSkills.LOGGER.info("Marking recipe as uncraftable");
             cir.setReturnValue(Optional.empty());
         }
     }

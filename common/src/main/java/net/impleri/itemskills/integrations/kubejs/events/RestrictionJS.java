@@ -2,7 +2,9 @@ package net.impleri.itemskills.integrations.kubejs.events;
 
 import dev.latvian.mods.kubejs.BuilderBase;
 import dev.latvian.mods.kubejs.RegistryObjectBuilderTypes;
+import dev.latvian.mods.kubejs.util.ConsoleJS;
 import dev.latvian.mods.rhino.util.RemapForJS;
+import net.impleri.itemskills.ItemSkills;
 import net.impleri.itemskills.integrations.kubejs.PlayerSkillDataJS;
 import net.impleri.itemskills.restrictions.Restriction;
 import net.impleri.playerskills.SkillResourceLocation;
@@ -20,7 +22,17 @@ public class RestrictionJS extends Restriction {
     public static final RegistryObjectBuilderTypes<Restriction> registry = RegistryObjectBuilderTypes.add(key, Restriction.class);
 
     public RestrictionJS(Builder builder) {
-        super(builder.id, builder.condition, builder.craftable, builder.visible, builder.holdable, builder.identifiable, builder.harmful, builder.wearable, builder.usable);
+        super(
+                builder.id,
+                builder.condition,
+                builder.craftable,
+                builder.visible,
+                builder.holdable,
+                builder.identifiable,
+                builder.harmful,
+                builder.wearable,
+                builder.usable
+        );
     }
 
     public static class Builder extends BuilderBase<Restriction> {
@@ -38,8 +50,15 @@ public class RestrictionJS extends Restriction {
         }
 
         @RemapForJS("if")
-        public Builder condition(Predicate<PlayerSkillDataJS> consumer) {
-            this.condition = (Player player) -> consumer.test(new PlayerSkillDataJS(player));
+        public Builder condition(Function<PlayerSkillDataJS, Boolean> consumer) {
+            this.condition = (Player player) -> {
+                var result = consumer.apply(new PlayerSkillDataJS(player));
+                ConsoleJS.SERVER.info("Is " + player.getName().getString() + " affected by this condition? " + result);
+
+                return result;
+            };
+
+            ConsoleJS.SERVER.info("Set condition for " + id);
 
             return this;
         }

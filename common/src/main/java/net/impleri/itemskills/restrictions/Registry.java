@@ -20,6 +20,8 @@ public abstract class Registry {
     public static List<Restriction> find(ResourceLocation name) {
         @Nullable List<Restriction> restrictions = registry.get(name);
 
+        ItemSkills.LOGGER.info("Current restriction for {}: {}", name, (restrictions != null) ? restrictions.size() : 0);
+
         return (restrictions != null) ? restrictions.stream().toList() : new ArrayList<>();
     }
 

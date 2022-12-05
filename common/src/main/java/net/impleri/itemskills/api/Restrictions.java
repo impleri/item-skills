@@ -22,20 +22,58 @@ public abstract class Restrictions {
 
     private static final Field[] allRestrictionFields = Restriction.class.getDeclaredFields();
 
-    private static boolean doesRestrictionAllow(Restriction restriction, String name) {
+    private static Field getField(String name) {
         Optional<Field> found = Arrays.stream(allRestrictionFields)
                 .filter(field -> field.getName().equals(name))
                 .findFirst();
 
-        if (found.isEmpty()) {
-            return false;
+        return found.orElse(null);
+    }
+
+    private static void logRestriction(Restriction restriction) {
+        ItemSkills.LOGGER.info(
+                "Restriction for {} values: craftable = {}. visible = {}. holdable = {}. identifiable = {}. harmful = {}. wearable = {}. usable = {}.",
+                restriction.item,
+                restriction.craftable,
+                restriction.visible,
+                restriction.holdable,
+                restriction.identifiable,
+                restriction.harmful,
+                restriction.wearable,
+                restriction.usable
+        );
+    }
+
+    private static boolean getFieldValueFor(Restriction restriction, String fieldName) {
+        logRestriction(restriction);
+
+        Field field = getField(fieldName);
+
+        // default to allow if field doesn't exist (this should never happen)
+        if (field == null) {
+            return true;
         }
 
         try {
-            return found.get().getBoolean(restriction);
-        } catch (IllegalAccessException ignored) {}
+            // return the boolean value of the field
+            return field.getBoolean(restriction);
+        } catch (IllegalAccessException | IllegalArgumentException | NullPointerException | ExceptionInInitializerError ignored) {}
 
-        return false;
+        // default to allow if we get some error when trying to access the field
+        return true;
+    }
+
+    private static boolean canPlayer(Player player, ResourceLocation item, String fieldName) {
+        boolean hasRestrictions = Registry.find(item).stream()
+                .peek(r -> ItemSkills.LOGGER.info("All restriction {}", r.item))
+                .filter(restriction -> restriction.condition.apply(player)) // reduce to those whose condition matches the player
+                .peek(r -> ItemSkills.LOGGER.info("Matched restriction {}", r.item))
+                .map(restriction -> getFieldValueFor(restriction, fieldName)) // get field value
+                .anyMatch(value -> !value); // do we have any restrictions that deny the action
+
+        ItemSkills.LOGGER.info("Does {} {} for {} have restrictions? {}", item, fieldName, player.getName().getString(), hasRestrictions);
+
+        return !hasRestrictions;
     }
 
     private static boolean canPlayer(ResourceLocation item, String fieldName) {
@@ -46,20 +84,15 @@ public abstract class Restrictions {
             return false;
         }
 
-        long restrictions = Registry.find(item).stream()
-                // Filter down to those which match the condition and disallow crafting
-                .filter(restriction -> restriction.condition.apply(player) && !doesRestrictionAllow(restriction, fieldName))
-                .count();
-
-        var result = restrictions > 0;
-
-        ItemSkills.LOGGER.info("Can {} craft {}? {}", player.getName().getString(), item, result);
-
-        return result;
+        return canPlayer(player, item, fieldName);
     }
 
     public static boolean isCraftable(ResourceLocation item) {
         return canPlayer(item, "craftable");
+    }
+
+    public static boolean isCraftable(Player player, ResourceLocation item) {
+        return canPlayer(player, item, "craftable");
     }
 
     public static boolean isVisible(ResourceLocation item) {
@@ -69,6 +102,11 @@ public abstract class Restrictions {
     public static boolean isHoldable(ResourceLocation item) {
         return canPlayer(item, "holdable");
     }
+
+    public static boolean isHoldable(Player player, ResourceLocation item) {
+        return canPlayer(player, item, "holdable");
+    }
+
     public static boolean isIdentifiable(ResourceLocation item) {
         return canPlayer(item, "identifiable");
     }
