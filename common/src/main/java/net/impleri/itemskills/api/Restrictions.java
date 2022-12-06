@@ -1,5 +1,7 @@
 package net.impleri.itemskills.api;
 
+import dev.architectury.platform.Platform;
+import dev.architectury.utils.Env;
 import net.impleri.itemskills.ItemSkills;
 import net.impleri.itemskills.restrictions.Registry;
 import net.impleri.itemskills.restrictions.Restriction;
@@ -13,6 +15,11 @@ import java.util.Optional;
 
 public abstract class Restrictions {
     private static Player getPlayer() {
+        if (Platform.getEnvironment() != Env.CLIENT) {
+            ItemSkills.LOGGER.warn("Trying to identify player from the server context");
+            return null;
+        }
+
         try {
             return Minecraft.getInstance().player;
         } catch (Throwable ignored) {}
@@ -65,9 +72,7 @@ public abstract class Restrictions {
 
     private static boolean canPlayer(Player player, ResourceLocation item, String fieldName) {
         boolean hasRestrictions = Registry.find(item).stream()
-                .peek(r -> ItemSkills.LOGGER.info("All restriction {}", r.item))
                 .filter(restriction -> restriction.condition.apply(player)) // reduce to those whose condition matches the player
-                .peek(r -> ItemSkills.LOGGER.info("Matched restriction {}", r.item))
                 .map(restriction -> getFieldValueFor(restriction, fieldName)) // get field value
                 .anyMatch(value -> !value); // do we have any restrictions that deny the action
 
@@ -99,6 +104,10 @@ public abstract class Restrictions {
         return canPlayer(item, "visible");
     }
 
+    public static boolean isVisible(Player player, ResourceLocation item) {
+        return canPlayer(player, item, "visible");
+    }
+
     public static boolean isHoldable(ResourceLocation item) {
         return canPlayer(item, "holdable");
     }
@@ -111,9 +120,14 @@ public abstract class Restrictions {
         return canPlayer(item, "identifiable");
     }
 
+    public static boolean isIdentifiable(Player player, ResourceLocation item) {
+        return canPlayer(player, item, "identifiable");
+    }
+
     public static boolean isHarmful(ResourceLocation item) {
         return canPlayer(item, "harmful");
     }
+
     public static boolean isHarmful(Player player, ResourceLocation item) {
         return canPlayer(player, item, "harmful");
     }
@@ -121,7 +135,16 @@ public abstract class Restrictions {
     public static boolean isWearable(ResourceLocation item) {
         return canPlayer(item, "wearable");
     }
+
+    public static boolean isWearable(Player player, ResourceLocation item) {
+        return canPlayer(player, item, "wearable");
+    }
+
     public static boolean isUsable(ResourceLocation item) {
         return canPlayer(item, "usable");
+    }
+
+    public static boolean isUsable(Player player, ResourceLocation item) {
+        return canPlayer(player, item, "usable");
     }
 }

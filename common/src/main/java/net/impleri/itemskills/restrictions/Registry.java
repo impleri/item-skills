@@ -20,13 +20,13 @@ public abstract class Registry {
     public static List<Restriction> find(ResourceLocation name) {
         @Nullable List<Restriction> restrictions = registry.get(name);
 
-        ItemSkills.LOGGER.info("Current restriction for {}: {}", name, (restrictions != null) ? restrictions.size() : 0);
+        ItemSkills.LOGGER.debug("Current restriction for {}: {}", name, (restrictions != null) ? restrictions.size() : 0);
 
         return (restrictions != null) ? restrictions.stream().toList() : new ArrayList<>();
     }
 
     public static void add(ResourceLocation name, Restriction restriction) {
-        ItemSkills.LOGGER.info("Adding restriction for {}", name);
+        ItemSkills.LOGGER.debug("Adding restriction for {}", name);
 
         List<Restriction> restrictions = find(name);
         restrictions.add(restriction);

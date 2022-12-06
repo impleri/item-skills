@@ -3,13 +3,9 @@ package net.impleri.itemskills.mixins;
 import com.mojang.datafixers.util.Pair;
 import net.impleri.itemskills.ItemSkills;
 import net.impleri.itemskills.api.Restrictions;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -24,11 +20,10 @@ import java.util.Optional;
 // Always client-side
 
 @Mixin(RecipeManager.class)
-public class RecipeManagerMixin {
+public class MixinRecipeManager {
     private boolean isCraftable(Recipe<?> recipe) {
         var item = recipe.getResultItem().getItem();
-        var location = Registry.ITEM.getKey(item);
-        return Restrictions.isCraftable(location);
+        return Restrictions.isCraftable(ItemSkills.getItemKey(item));
     }
 
     @Inject(method = "getRecipeFor(Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/world/Container;Lnet/minecraft/world/level/Level;)Ljava/util/Optional;", at = @At(value = "RETURN"), cancellable = true)
@@ -39,7 +34,6 @@ public class RecipeManagerMixin {
         }
 
         if (!isCraftable(value.get())) {
-            ItemSkills.LOGGER.info("Marking recipe as uncraftable");
             cir.setReturnValue(Optional.empty());
         }
     }
@@ -52,7 +46,6 @@ public class RecipeManagerMixin {
         }
 
         if (!isCraftable(value.get().getSecond())) {
-            ItemSkills.LOGGER.info("Marking recipe as uncraftable");
             cir.setReturnValue(Optional.empty());
         }
     }
@@ -65,7 +58,6 @@ public class RecipeManagerMixin {
         }
 
         if (!isCraftable(value.get())) {
-            ItemSkills.LOGGER.info("Marking recipe as uncraftable");
             cir.setReturnValue(Optional.empty());
         }
     }

@@ -51,23 +51,13 @@ public class RestrictionJS extends Restriction {
 
         @RemapForJS("if")
         public Builder condition(Function<PlayerSkillDataJS, Boolean> consumer) {
-            this.condition = (Player player) -> {
-                var result = consumer.apply(new PlayerSkillDataJS(player));
-                ConsoleJS.SERVER.info("Is " + player.getName().getString() + " affected by this condition? " + result);
-
-                return result;
-            };
+            this.condition = (Player player) -> consumer.apply(new PlayerSkillDataJS(player));
 
             return this;
         }
 
         public Builder unless(Function<PlayerSkillDataJS, Boolean> consumer) {
-            this.condition = (Player player) -> {
-                var result = !consumer.apply(new PlayerSkillDataJS(player));
-                ConsoleJS.SERVER.info("Is " + player.getName().getString() + " affected by this condition? " + result);
-
-                return result;
-            };
+            this.condition = (Player player) -> !consumer.apply(new PlayerSkillDataJS(player));
 
             return this;
         }
