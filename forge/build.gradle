@@ -27,9 +27,16 @@ loom {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
-    modImplementation "dev.architectury:architectury-forge:${rootProject.architectury_version}"
-    modImplementation "dev.latvian.mods:kubejs-forge:${rootProject.kubejs_version}"
-    modImplementation "net.impleri:playerskills-forge:${rootProject.playerskills_version}"
+    modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
+
+    modRuntimeOnly "net.impleri:playerskills-forge:${rootProject.playerskills_version}"
+
+    modRuntimeOnly "dev.latvian.mods:kubejs-forge:${rootProject.kubejs_version}"
+
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:${rootProject.rei_version}"
+
+    modCompileOnly "mezz.jei:jei-${rootProject.minecraft_version}-forge-api:${rootProject.jei_version}"
+    modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}-forge:${rootProject.jei_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }

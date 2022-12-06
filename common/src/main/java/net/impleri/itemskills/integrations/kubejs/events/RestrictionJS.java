@@ -64,6 +64,7 @@ public class RestrictionJS extends Restriction {
 
         public Builder craftable() {
             this.craftable = true;
+            holdable = true;
 
             return this;
         }
@@ -76,6 +77,7 @@ public class RestrictionJS extends Restriction {
 
         public Builder visible() {
             this.visible = true;
+            holdable = true;
 
             return this;
         }
@@ -94,6 +96,11 @@ public class RestrictionJS extends Restriction {
 
         public Builder unholdable() {
             this.holdable = false;
+            craftable = false;
+            visible = false;
+            harmful = false;
+            wearable = false;
+            usable = false;
 
             return this;
         }
@@ -112,6 +119,7 @@ public class RestrictionJS extends Restriction {
 
         public Builder harmful() {
             this.harmful = true;
+            holdable = true;
 
             return this;
         }
@@ -124,6 +132,7 @@ public class RestrictionJS extends Restriction {
 
         public Builder wearable() {
             this.wearable = true;
+            holdable = true;
 
             return this;
         }
@@ -136,6 +145,7 @@ public class RestrictionJS extends Restriction {
 
         public Builder usable() {
             this.usable = true;
+            holdable = true;
 
             return this;
         }

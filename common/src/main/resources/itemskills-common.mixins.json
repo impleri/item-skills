@@ -5,8 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [],
   "client": [
-    "MixinRecipeManager",
-    "MixinPlayer"
+    "MixinRecipeManager"
   ],
   "server": [],
   "injectors": {

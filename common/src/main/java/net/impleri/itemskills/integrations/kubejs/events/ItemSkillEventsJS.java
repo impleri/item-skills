@@ -16,6 +16,7 @@ public class ItemSkillEventsJS extends EventJS {
         consumer.accept(builder);
 
         var restriction = builder.createObject();
+        ConsoleJS.SERVER.info("Created item restriction for " + item);
         Registry.add(name, restriction);
     }
 }

@@ -17,8 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
 
-// Always client-side
-
 @Mixin(RecipeManager.class)
 public class MixinRecipeManager {
     private boolean isCraftable(Recipe<?> recipe) {
