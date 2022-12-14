@@ -34,5 +34,12 @@
     "minecraft": ">=1.19.2",
     "architectury": ">=6.2.43",
     "playerskills": ">=1.0.0"
+  },
+  "recommends": {
+    "kubejs": ""
+  },
+  "suggests": {
+    "roughlyenoughitems": ">=9.0.0",
+    "jei": ">=11.0.0"
   }
 }
