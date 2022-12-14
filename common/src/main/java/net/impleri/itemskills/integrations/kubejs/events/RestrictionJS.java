@@ -37,13 +37,13 @@ public class RestrictionJS extends Restriction {
         @HideFromJS
         public Predicate<Player> condition = (Player player) -> true;
 
-        public boolean producible = false;
-        public boolean consumable = false;
-        public boolean holdable = false;
-        public boolean identifiable = false;
-        public boolean harmful = false;
-        public boolean wearable = false;
-        public boolean usable = false;
+        public boolean producible = true;
+        public boolean consumable = true;
+        public boolean holdable = true;
+        public boolean identifiable = true;
+        public boolean harmful = true;
+        public boolean wearable = true;
+        public boolean usable = true;
 
         @HideFromJS
         public Builder(ResourceLocation id) {

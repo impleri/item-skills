@@ -86,7 +86,7 @@ public class ItemSkills {
     }
 
     private void onPlayerTick(Player player) {
-        if (!player.getLevel().isClientSide) {
+        if (player.getLevel().isClientSide) {
             return;
         }
 
