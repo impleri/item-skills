@@ -1,0 +1,41 @@
+architectury {
+    common(rootProject.enabled_platforms.split(","))
+}
+
+dependencies {
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    modApi "dev.architectury:architectury:${rootProject.architectury_version}"
+
+    modCompileOnly "net.impleri:player-skills:${rootProject.playerskills_version}"
+
+    modCompileOnly "dev.latvian.mods:kubejs:${rootProject.kubejs_version}"
+
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin:${rootProject.rei_version}"
+
+    modCompileOnly "mezz.jei:jei-${rootProject.minecraft_version}-common-api:${rootProject.jei_version}"
+}
+
+publishing {
+    publications {
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.archives_base_name
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/impleri/dimension-skills")
+            credentials {
+                username = System.getenv("GH_USER")
+                password = System.getenv("GH_TOKEN")
+            }
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
