@@ -14,6 +14,20 @@ A library mod that exposes KubeJS methods to restrict crafting recipes and playe
 #logoFile = ""
 
 [[dependencies.itemskills]]
+modId = "roughlyenoughitems"
+mandatory = false
+versionRange = "[9,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.itemskills]]
+modId = "jei"
+mandatory = false
+versionRange = "[11,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.itemskills]]
 modId = "playerskills"
 mandatory = true
 versionRange = "[1,)"
