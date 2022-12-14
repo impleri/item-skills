@@ -16,8 +16,14 @@
   "icon": "assets/itemskills/icon.png",
   "environment": "*",
   "entrypoints": {
+    "jei_mod_plugin": [
+      "net.impleri.itemskills.integrations.jei.ItemSkillsJeiPlugin"
+    ],
     "main": [
       "net.impleri.itemskills.fabric.ItemSkillsFabric"
+    ],
+    "rei_client": [
+      "net.impleri.itemskills.integrations.rei.ItemSkillsReiPlugin"
     ]
   },
   "mixins": [

@@ -4,13 +4,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Restriction {
     public final ResourceLocation item;
-    public final Function<Player, Boolean> condition;
-    public final boolean craftable;
-    public final boolean visible;
+    public final Predicate<Player> condition;
+    public final boolean producible;
+    public final boolean consumable;
     public final boolean holdable;
     public final boolean identifiable;
     public final boolean harmful;
@@ -19,9 +19,9 @@ public class Restriction {
 
     public Restriction(
         ResourceLocation item,
-        Function<Player, Boolean> condition,
-        @Nullable Boolean craftable,
-        @Nullable Boolean visible,
+        Predicate<Player> condition,
+        @Nullable Boolean producible,
+        @Nullable Boolean consumable,
         @Nullable Boolean holdable,
         @Nullable Boolean identifiable,
         @Nullable Boolean harmful,
@@ -30,8 +30,8 @@ public class Restriction {
     ) {
         this.item = item;
         this.condition = condition;
-        this.craftable = Boolean.TRUE.equals(craftable);
-        this.visible = Boolean.TRUE.equals(visible);
+        this.producible = Boolean.TRUE.equals(producible);
+        this.consumable = Boolean.TRUE.equals(consumable);
         this.holdable = Boolean.TRUE.equals(holdable);
         this.identifiable = Boolean.TRUE.equals(identifiable);
         this.harmful = Boolean.TRUE.equals(harmful);
@@ -41,70 +41,70 @@ public class Restriction {
 
     public Restriction(
         ResourceLocation item,
-        Function<Player, Boolean> condition,
-        @Nullable Boolean craftable,
-        @Nullable Boolean visible,
+        Predicate<Player> condition,
+        @Nullable Boolean producible,
+        @Nullable Boolean consumable,
         @Nullable Boolean holdable,
         @Nullable Boolean identifiable,
         @Nullable Boolean harmful,
         @Nullable Boolean wearable
     ) {
-        this(item, condition, craftable, visible, holdable, identifiable, harmful, wearable, null);
+        this(item, condition, producible, consumable, holdable, identifiable, harmful, wearable, null);
     }
 
     public Restriction(
         ResourceLocation item,
-        Function<Player, Boolean> condition,
-        @Nullable Boolean craftable,
-        @Nullable Boolean visible,
+        Predicate<Player> condition,
+        @Nullable Boolean producible,
+        @Nullable Boolean consumable,
         @Nullable Boolean holdable,
         @Nullable Boolean identifiable,
         @Nullable Boolean harmful
     ) {
-        this(item, condition, craftable, visible, holdable, identifiable, harmful, null);
+        this(item, condition, producible, consumable, holdable, identifiable, harmful, null);
     }
 
     public Restriction(
         ResourceLocation item,
-        Function<Player, Boolean> condition,
-        @Nullable Boolean craftable,
-        @Nullable Boolean visible,
+        Predicate<Player> condition,
+        @Nullable Boolean producible,
+        @Nullable Boolean consumable,
         @Nullable Boolean holdable,
         @Nullable Boolean identifiable
     ) {
-        this(item, condition, craftable, visible, holdable, identifiable, null);
+        this(item, condition, producible, consumable, holdable, identifiable, null);
     }
 
     public Restriction(
         ResourceLocation item,
-        Function<Player, Boolean> condition,
-        @Nullable Boolean craftable,
-        @Nullable Boolean visible,
+        Predicate<Player> condition,
+        @Nullable Boolean producible,
+        @Nullable Boolean consumable,
         @Nullable Boolean holdable
     ) {
-        this(item, condition, craftable, visible, holdable, null);
+        this(item, condition, producible, consumable, holdable, null);
     }
 
     public Restriction(
         ResourceLocation item,
-        Function<Player, Boolean> condition,
-        @Nullable Boolean craftable,
-        @Nullable Boolean visible
+        Predicate<Player> condition,
+        @Nullable Boolean producible,
+        @Nullable Boolean consumable
     ) {
-        this(item, condition, craftable, visible, null);
+        this(item, condition, producible, consumable, null);
     }
 
     public Restriction(
         ResourceLocation item,
-        Function<Player, Boolean> condition,
-        @Nullable Boolean craftable
+        Predicate<Player> condition,
+        @Nullable Boolean producible
     ) {
-        this(item, condition, craftable, null);
+        this(item, condition, producible, null);
     }
 
     public Restriction(
         ResourceLocation item,
-        Function<Player, Boolean> condition
+        Predicate<Player> condition
     ) {
         this(item, condition, null);
     }

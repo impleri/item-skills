@@ -24,11 +24,13 @@ dependencies {
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
 
-    modRuntimeOnly "net.impleri:playerskills-fabric:${rootProject.playerskills_version}"
+    modRuntimeOnly "net.impleri:player-skills-fabric:${rootProject.playerskills_version}"
 
     modRuntimeOnly "dev.latvian.mods:kubejs-fabric:${rootProject.kubejs_version}"
 
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProject.rei_version}"
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rootProject.rei_version}"
 
     modCompileOnly "mezz.jei:jei-${rootProject.minecraft_version}-fabric-api:${rootProject.jei_version}"
     modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}-fabric:${rootProject.jei_version}"

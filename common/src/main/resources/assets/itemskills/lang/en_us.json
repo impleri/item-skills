@@ -1,3 +1,5 @@
 {
-  "message.itemskills.unknown_item": "Unknown Item"
+  "message.itemskills.unknown_item": "Unknown Item",
+  "rules.itemskills.filtering.rule": "Item Skills",
+  "rules.itemskills.filtering.rule.subtitle": "Stage items based on Player Skills restrictions"
 }

@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public abstract class Restrictions {
@@ -22,7 +23,8 @@ public abstract class Restrictions {
 
         try {
             return Minecraft.getInstance().player;
-        } catch (Throwable ignored) {}
+        } catch (Throwable ignored) {
+        }
 
         return null;
     }
@@ -38,11 +40,11 @@ public abstract class Restrictions {
     }
 
     private static void logRestriction(Restriction restriction) {
-        ItemSkills.LOGGER.info(
-                "Restriction for {} values: craftable = {}. visible = {}. holdable = {}. identifiable = {}. harmful = {}. wearable = {}. usable = {}.",
+        ItemSkills.LOGGER.debug(
+                "Restriction for {} values: producible = {}. consumable = {}. holdable = {}. identifiable = {}. harmful = {}. wearable = {}. usable = {}.",
                 restriction.item,
-                restriction.craftable,
-                restriction.visible,
+                restriction.producible,
+                restriction.consumable,
                 restriction.holdable,
                 restriction.identifiable,
                 restriction.harmful,
@@ -64,19 +66,25 @@ public abstract class Restrictions {
         try {
             // return the boolean value of the field
             return field.getBoolean(restriction);
-        } catch (IllegalAccessException | IllegalArgumentException | NullPointerException | ExceptionInInitializerError ignored) {}
+        } catch (IllegalAccessException | IllegalArgumentException | NullPointerException | ExceptionInInitializerError ignored) {
+        }
 
         // default to allow if we get some error when trying to access the field
         return true;
     }
 
     private static boolean canPlayer(Player player, ResourceLocation item, String fieldName) {
+        if (player == null) {
+            ItemSkills.LOGGER.warn("Attempted to determine if null player can {} on {}", fieldName, item);
+            return false;
+        }
+
         boolean hasRestrictions = Registry.find(item).stream()
-                .filter(restriction -> restriction.condition.apply(player)) // reduce to those whose condition matches the player
+                .filter(restriction -> restriction.condition.test(player)) // reduce to those whose condition matches the player
                 .map(restriction -> getFieldValueFor(restriction, fieldName)) // get field value
                 .anyMatch(value -> !value); // do we have any restrictions that deny the action
 
-        ItemSkills.LOGGER.info("Does {} for {} have {} restrictions? {}", item, player.getName().getString(), fieldName, hasRestrictions);
+        ItemSkills.LOGGER.debug("Does {} for {} have {} restrictions? {}", item, player.getName().getString(), fieldName, hasRestrictions);
 
         return !hasRestrictions;
     }
@@ -84,28 +92,51 @@ public abstract class Restrictions {
     private static boolean canPlayer(ResourceLocation item, String fieldName) {
         Player player = getPlayer();
 
-        if (player == null) {
-            ItemSkills.LOGGER.warn("Attempted to determine if null player can {} on {}", fieldName, item);
-            return false;
-        }
-
         return canPlayer(player, item, fieldName);
     }
 
-    public static boolean isCraftable(ResourceLocation item) {
-        return canPlayer(item, "craftable");
+    public static List<Restriction> getAll() {
+        return Registry.entries();
     }
 
-    public static boolean isCraftable(Player player, ResourceLocation item) {
-        return canPlayer(player, item, "craftable");
+    public static List<ResourceLocation> getHidden() {
+        var player = getPlayer();
+        return getAll().stream()
+                .filter(r -> !r.producible && !r.consumable && r.condition.test(player))
+                .map(r -> r.item)
+                .toList();
     }
 
-    public static boolean isVisible(ResourceLocation item) {
-        return canPlayer(item, "visible");
+    public static List<ResourceLocation> getUnproducible() {
+        var player = getPlayer();
+        return getAll().stream()
+                .filter(r -> !r.producible && r.condition.test(player))
+                .map(r -> r.item)
+                .toList();
     }
 
-    public static boolean isVisible(Player player, ResourceLocation item) {
-        return canPlayer(player, item, "visible");
+    public static List<ResourceLocation> getUnconsumable() {
+        var player = getPlayer();
+        return getAll().stream()
+                .filter(r -> !r.consumable && r.condition.test(player))
+                .map(r -> r.item)
+                .toList();
+    }
+
+    public static boolean isProducible(ResourceLocation item) {
+        return canPlayer(item, "producible");
+    }
+
+    public static boolean isProducible(Player player, ResourceLocation item) {
+        return canPlayer(player, item, "producible");
+    }
+
+    public static boolean isConsumable(ResourceLocation item) {
+        return canPlayer(item, "consumable");
+    }
+
+    public static boolean isConsumable(Player player, ResourceLocation item) {
+        return canPlayer(player, item, "consumable");
     }
 
     public static boolean isHoldable(ResourceLocation item) {

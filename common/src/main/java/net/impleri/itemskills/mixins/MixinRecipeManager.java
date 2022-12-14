@@ -3,7 +3,6 @@ package net.impleri.itemskills.mixins;
 import com.mojang.datafixers.util.Pair;
 import net.impleri.itemskills.ItemSkills;
 import net.impleri.itemskills.api.Restrictions;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Recipe;
@@ -21,7 +20,7 @@ import java.util.Optional;
 public class MixinRecipeManager {
     private boolean isCraftable(Recipe<?> recipe) {
         var item = recipe.getResultItem().getItem();
-        return Restrictions.isCraftable(ItemSkills.getItemKey(item));
+        return Restrictions.isProducible(ItemSkills.getItemKey(item));
     }
 
     @Inject(method = "getRecipeFor(Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/world/Container;Lnet/minecraft/world/level/Level;)Ljava/util/Optional;", at = @At(value = "RETURN"), cancellable = true)

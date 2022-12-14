@@ -2,18 +2,16 @@ package net.impleri.itemskills.integrations.kubejs.events;
 
 import dev.latvian.mods.kubejs.BuilderBase;
 import dev.latvian.mods.kubejs.RegistryObjectBuilderTypes;
-import dev.latvian.mods.kubejs.util.ConsoleJS;
+import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapForJS;
-import net.impleri.itemskills.ItemSkills;
 import net.impleri.itemskills.integrations.kubejs.PlayerSkillDataJS;
 import net.impleri.itemskills.restrictions.Restriction;
-import net.impleri.playerskills.SkillResourceLocation;
+import net.impleri.playerskills.utils.SkillResourceLocation;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class RestrictionJS extends Restriction {
@@ -25,8 +23,8 @@ public class RestrictionJS extends Restriction {
         super(
                 builder.id,
                 builder.condition,
-                builder.craftable,
-                builder.visible,
+                builder.producible,
+                builder.consumable,
                 builder.holdable,
                 builder.identifiable,
                 builder.harmful,
@@ -36,54 +34,58 @@ public class RestrictionJS extends Restriction {
     }
 
     public static class Builder extends BuilderBase<Restriction> {
-        public Function<Player, Boolean> condition;
-        public boolean craftable = false;
-        public boolean visible = false;
+        @HideFromJS
+        public Predicate<Player> condition = (Player player) -> true;
+
+        public boolean producible = false;
+        public boolean consumable = false;
         public boolean holdable = false;
         public boolean identifiable = false;
         public boolean harmful = false;
         public boolean wearable = false;
         public boolean usable = false;
 
+        @HideFromJS
         public Builder(ResourceLocation id) {
             super(id);
         }
 
+
         @RemapForJS("if")
-        public Builder condition(Function<PlayerSkillDataJS, Boolean> consumer) {
-            this.condition = (Player player) -> consumer.apply(new PlayerSkillDataJS(player));
+        public Builder condition(Predicate<PlayerSkillDataJS> consumer) {
+            this.condition = (Player player) -> consumer.test(new PlayerSkillDataJS(player));
 
             return this;
         }
 
-        public Builder unless(Function<PlayerSkillDataJS, Boolean> consumer) {
-            this.condition = (Player player) -> !consumer.apply(new PlayerSkillDataJS(player));
+        public Builder unless(Predicate<PlayerSkillDataJS> consumer) {
+            this.condition = (Player player) -> !consumer.test(new PlayerSkillDataJS(player));
 
             return this;
         }
 
-        public Builder craftable() {
-            this.craftable = true;
+        public Builder producible() {
+            this.producible = true;
             holdable = true;
 
             return this;
         }
 
-        public Builder uncraftable() {
-            this.craftable = false;
+        public Builder unproducible() {
+            this.producible = false;
 
             return this;
         }
 
-        public Builder visible() {
-            this.visible = true;
+        public Builder consumable() {
+            this.consumable = true;
             holdable = true;
 
             return this;
         }
 
-        public Builder hidden() {
-            this.visible = false;
+        public Builder unconsumable() {
+            this.consumable = false;
 
             return this;
         }
@@ -96,8 +98,8 @@ public class RestrictionJS extends Restriction {
 
         public Builder unholdable() {
             this.holdable = false;
-            craftable = false;
-            visible = false;
+            producible = false;
+            consumable = false;
             harmful = false;
             wearable = false;
             usable = false;
@@ -157,8 +159,8 @@ public class RestrictionJS extends Restriction {
         }
 
         public Builder nothing() {
-            craftable = true;
-            visible = true;
+            producible = true;
+            consumable = true;
             holdable = true;
             identifiable = true;
             harmful = true;
@@ -169,8 +171,8 @@ public class RestrictionJS extends Restriction {
         }
 
         public Builder everything() {
-            craftable = false;
-            visible = false;
+            producible = false;
+            consumable = false;
             holdable = false;
             identifiable = false;
             harmful = false;
@@ -180,11 +182,13 @@ public class RestrictionJS extends Restriction {
             return this;
         }
 
+        @HideFromJS
         @Override
         public RegistryObjectBuilderTypes<Restriction> getRegistryType() {
             return registry;
         }
 
+        @HideFromJS
         @Override
         public Restriction createObject() {
             return new RestrictionJS(this);

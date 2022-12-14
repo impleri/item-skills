@@ -29,11 +29,13 @@ dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
     modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
-    modRuntimeOnly "net.impleri:playerskills-forge:${rootProject.playerskills_version}"
+    modRuntimeOnly "net.impleri:player-skills-forge:${rootProject.playerskills_version}"
 
     modRuntimeOnly "dev.latvian.mods:kubejs-forge:${rootProject.kubejs_version}"
 
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:${rootProject.rei_version}"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-forge:${rootProject.rei_version}"
+    modImplementation "me.shedaniel:RoughlyEnoughItems-forge:${rootProject.rei_version}"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-forge:${rootProject.rei_version}"
 
     modCompileOnly "mezz.jei:jei-${rootProject.minecraft_version}-forge-api:${rootProject.jei_version}"
     modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}-forge:${rootProject.jei_version}"

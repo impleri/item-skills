@@ -4,21 +4,15 @@ import dev.architectury.event.CompoundEventResult;
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.client.ClientTooltipEvent;
 import dev.architectury.event.events.common.*;
-import dev.architectury.registry.ReloadListenerRegistry;
 import dev.architectury.utils.value.IntValue;
 import net.impleri.itemskills.api.Restrictions;
-import net.impleri.itemskills.integrations.kubejs.ItemSkillsPlugin;
-import net.impleri.itemskills.restrictions.Registry;
-import net.impleri.playerskills.PlayerSkillsLogger;
+import net.impleri.playerskills.utils.PlayerSkillsLogger;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -31,29 +25,33 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class ItemSkills implements ResourceManagerReloadListener {
+public class ItemSkills {
     public static final String MOD_ID = "itemskills";
     public static final PlayerSkillsLogger LOGGER = PlayerSkillsLogger.create(MOD_ID, "PS-ITEM");
 
-    private static final ItemSkills eventHandler = new ItemSkills();
+    private static final ItemSkills INSTANCE = new ItemSkills();
 
     public static void init() {
         LOGGER.info("Loaded Item Skills");
-        eventHandler.registerEventHandlers();
+        INSTANCE.registerEventHandlers();
     }
 
-    public static void end() {
-        eventHandler.unregisterEventHandlers();
+    public static ResourceLocation getItemKey(ItemStack stack) {
+        return getItemKey(stack.isEmpty() ? null : stack.getItem());
     }
+
+    public static ResourceLocation getItemKey(Item item) {
+        return net.minecraft.core.Registry.ITEM.getKey(item);
+    }
+
+    private static final ResourceLocation defaultItem = getItemKey((Item) null);
 
     private void registerEventHandlers() {
         // holdable
@@ -74,47 +72,7 @@ public class ItemSkills implements ResourceManagerReloadListener {
 
         // Tooltip
         ClientTooltipEvent.ITEM.register(this::beforeRenderItemTooltip);
-
-        // Reload
-        ReloadListenerRegistry.register(PackType.SERVER_DATA, this);
     }
-
-    private void unregisterEventHandlers() {
-        // holdable
-        PlayerEvent.PICKUP_ITEM_PRE.unregister(this::beforePlayerPickup);
-
-        // holdable AND wearable
-        TickEvent.PLAYER_POST.unregister(this::onPlayerTick);
-
-        // harmful
-        EntityEvent.LIVING_HURT.unregister(this::beforePlayerAttack);
-
-        // usable
-        BlockEvent.BREAK.unregister(this::beforeMine);
-        InteractionEvent.LEFT_CLICK_BLOCK.unregister(this::beforeUseItemBlock);
-        InteractionEvent.RIGHT_CLICK_BLOCK.unregister(this::beforeUseItemBlock);
-        InteractionEvent.RIGHT_CLICK_ITEM.unregister(this::beforeUseItem);
-        InteractionEvent.INTERACT_ENTITY.unregister(this::beforeInteractEntity);
-
-        // Tooltip
-        ClientTooltipEvent.ITEM.unregister(this::beforeRenderItemTooltip);
-    }
-
-    @Override
-    public void onResourceManagerReload(@NotNull ResourceManager resourceManager) {
-        Registry.clear();
-        ItemSkillsPlugin.loadRestrictions();
-    }
-
-    public static ResourceLocation getItemKey(ItemStack stack) {
-        return getItemKey(stack.isEmpty() ? null : stack.getItem());
-    }
-
-    public static ResourceLocation getItemKey(Item item) {
-        return net.minecraft.core.Registry.ITEM.getKey(item);
-    }
-
-    private static final ResourceLocation defaultItem = getItemKey((Item) null);
 
     private EventResult beforePlayerPickup(Player player, ItemEntity entity, ItemStack stack) {
         var item = getItemKey(stack);
@@ -128,6 +86,10 @@ public class ItemSkills implements ResourceManagerReloadListener {
     }
 
     private void onPlayerTick(Player player) {
+        if (!player.getLevel().isClientSide) {
+            return;
+        }
+
         Inventory inventory = player.getInventory();
         HashMap<Integer, ItemStack> armorToRemove = new HashMap<>();
         ArrayList<ItemStack> itemsToRemove = new ArrayList<>();
@@ -241,7 +203,7 @@ public class ItemSkills implements ResourceManagerReloadListener {
     private void beforeRenderItemTooltip(ItemStack stack, List<Component> lines, TooltipFlag flag) {
         var item = getItemKey(stack);
         if (!Restrictions.isIdentifiable(item)) {
-            LOGGER.info("Replacing tooltip for {}", getItemKey(stack));
+            LOGGER.debug("Replacing tooltip for {}", getItemKey(stack));
             lines.clear();
             lines.add(Component.translatable("message.itemskills.unknown_item").withStyle(ChatFormatting.RED));
         }
