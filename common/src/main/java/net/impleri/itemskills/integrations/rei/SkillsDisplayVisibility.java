@@ -6,8 +6,7 @@ import me.shedaniel.rei.api.client.registry.display.visibility.DisplayVisibility
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
-import net.impleri.itemskills.ItemSkills;
-import net.impleri.itemskills.api.Restrictions;
+import net.impleri.itemskills.client.ClientApi;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -42,13 +41,13 @@ public class SkillsDisplayVisibility implements DisplayVisibilityPredicate {
      * Checks every ingredient to see if any are uncraftable
      */
     private boolean hasHiddenOutput(EntryStack<?> entry) {
-        return  !Restrictions.isProducible(entry.getIdentifier());
+        return !ClientApi.isProducible(entry.getIdentifier());
     }
 
     /**
      * Checks every ingredient to see if any are supposed to be hidden
      */
     private boolean hasHiddenInput(EntryStack<?> entry) {
-        return !Restrictions.isConsumable(entry.getIdentifier());
+        return !ClientApi.isConsumable(entry.getIdentifier());
     }
 }
