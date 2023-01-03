@@ -22,6 +22,9 @@
     "main": [
       "net.impleri.itemskills.fabric.ItemSkillsFabric"
     ],
+    "client": [
+      "net.impleri.itemskills.client.fabric.ItemSkillsClientFabric"
+    ],
     "rei_client": [
       "net.impleri.itemskills.integrations.rei.ItemSkillsReiPlugin"
     ]

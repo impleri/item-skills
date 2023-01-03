@@ -8,7 +8,7 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.impleri.itemskills.ItemSkills;
-import net.impleri.itemskills.api.Restrictions;
+import net.impleri.itemskills.client.ClientApi;
 import net.impleri.itemskills.utils.ListDiff;
 import net.impleri.playerskills.client.events.ClientSkillsUpdatedEvent;
 import net.minecraft.core.Registry;
@@ -53,7 +53,7 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
 
     private void processUnconsumables() {
         var manager = runtime.getIngredientManager();
-        var next = Restrictions.getUnconsumable();
+        var next = ClientApi.getUnconsumable();
 
         // Nothing on either list, so don't bother
         if (currentUnconsumables.size() == 0 && next.size() == 0) {
@@ -78,7 +78,7 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
     }
 
     private void processUnproducibles() {
-        var next = Restrictions.getUnproducible();
+        var next = ClientApi.getUnproducible();
 
         // Nothing on either list, so don't bother
         if (currentUnproducibles.size() == 0 && next.size() == 0) {

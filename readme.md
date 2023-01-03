@@ -3,7 +3,6 @@
 A library mod that exposes KubeJS methods to restrict items to the player based on skills. Built around
 [Player Skills](https://github.com/impleri/player-skills). This interacts with both JEI and REI. Note that this does not
 alter interactions with placed items (e.g. a placed bed will still be interactable by a player who can't craft one).
-Those interactions will be handled by the yet-to-be-released `block-skills`.
 
 When using this with JEI or REI, please be sure to disable the vanilla recipe book as the restricted items can appear
 there despite being uncraftable as this mod does not remove any actual recipe. Instead of removing recipes, it restricts
@@ -78,3 +77,6 @@ Want to use this in a modpack? Great! This was designed with modpack developers 
 - [] Implement restrictions based on tags
 - [] Implement restrictions based on mod IDs
 - [] Implement replacement items
+- [] Check OFFHAND, Curios, Trinkets
+    - https://github.com/TheIllusiveC4/Curios/blob/1.19.x/src/main/java/top/theillusivec4/curios/api/type/util/ICuriosHelper.java#L52
+    - https://github.com/emilyploszaj/trinkets/blob/main/src/main/java/dev/emi/trinkets/api/TrinketsApi.java#L62

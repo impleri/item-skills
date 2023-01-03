@@ -2,15 +2,12 @@ package net.impleri.itemskills;
 
 import dev.architectury.event.CompoundEventResult;
 import dev.architectury.event.EventResult;
-import dev.architectury.event.events.client.ClientTooltipEvent;
 import dev.architectury.event.events.common.*;
 import dev.architectury.utils.value.IntValue;
 import net.impleri.itemskills.api.Restrictions;
 import net.impleri.playerskills.utils.PlayerSkillsLogger;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -22,7 +19,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
@@ -30,11 +26,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class ItemSkills {
     public static final String MOD_ID = "itemskills";
-    public static final PlayerSkillsLogger LOGGER = PlayerSkillsLogger.create(MOD_ID, "PS-ITEM");
+    public static final PlayerSkillsLogger LOGGER = PlayerSkillsLogger.create(MOD_ID, "ITEMS");
 
     private static final ItemSkills INSTANCE = new ItemSkills();
 
@@ -69,9 +64,6 @@ public class ItemSkills {
         InteractionEvent.RIGHT_CLICK_BLOCK.register(this::beforeUseItemBlock);
         InteractionEvent.RIGHT_CLICK_ITEM.register(this::beforeUseItem);
         InteractionEvent.INTERACT_ENTITY.register(this::beforeInteractEntity);
-
-        // Tooltip
-        ClientTooltipEvent.ITEM.register(this::beforeRenderItemTooltip);
     }
 
     private EventResult beforePlayerPickup(Player player, ItemEntity entity, ItemStack stack) {
@@ -198,14 +190,5 @@ public class ItemSkills {
         }
 
         return EventResult.interruptFalse();
-    }
-
-    private void beforeRenderItemTooltip(ItemStack stack, List<Component> lines, TooltipFlag flag) {
-        var item = getItemKey(stack);
-        if (!Restrictions.isIdentifiable(item)) {
-            LOGGER.debug("Replacing tooltip for {}", getItemKey(stack));
-            lines.clear();
-            lines.add(Component.translatable("message.itemskills.unknown_item").withStyle(ChatFormatting.RED));
-        }
     }
 }

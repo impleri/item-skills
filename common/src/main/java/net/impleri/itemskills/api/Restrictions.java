@@ -1,34 +1,16 @@
 package net.impleri.itemskills.api;
 
-import dev.architectury.platform.Platform;
-import dev.architectury.utils.Env;
 import net.impleri.itemskills.ItemSkills;
 import net.impleri.itemskills.restrictions.Registry;
 import net.impleri.itemskills.restrictions.Restriction;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 public abstract class Restrictions {
-    private static Player getPlayer() {
-        if (Platform.getEnvironment() != Env.CLIENT) {
-            ItemSkills.LOGGER.warn("Trying to identify player from the server context");
-            return null;
-        }
-
-        try {
-            return Minecraft.getInstance().player;
-        } catch (Throwable ignored) {
-        }
-
-        return null;
-    }
-
     private static final Field[] allRestrictionFields = Restriction.class.getDeclaredFields();
 
     private static Field getField(String name) {
@@ -89,90 +71,28 @@ public abstract class Restrictions {
         return !hasRestrictions;
     }
 
-    private static boolean canPlayer(ResourceLocation item, String fieldName) {
-        Player player = getPlayer();
-
-        return canPlayer(player, item, fieldName);
-    }
-
-    public static List<Restriction> getAll() {
-        return Registry.entries();
-    }
-
-    public static List<ResourceLocation> getHidden() {
-        var player = getPlayer();
-        return getAll().stream()
-                .filter(r -> !r.producible && !r.consumable && r.condition.test(player))
-                .map(r -> r.item)
-                .toList();
-    }
-
-    public static List<ResourceLocation> getUnproducible() {
-        var player = getPlayer();
-        return getAll().stream()
-                .filter(r -> !r.producible && r.condition.test(player))
-                .map(r -> r.item)
-                .toList();
-    }
-
-    public static List<ResourceLocation> getUnconsumable() {
-        var player = getPlayer();
-        return getAll().stream()
-                .filter(r -> !r.consumable && r.condition.test(player))
-                .map(r -> r.item)
-                .toList();
-    }
-
-    public static boolean isProducible(ResourceLocation item) {
-        return canPlayer(item, "producible");
-    }
-
     public static boolean isProducible(Player player, ResourceLocation item) {
         return canPlayer(player, item, "producible");
-    }
-
-    public static boolean isConsumable(ResourceLocation item) {
-        return canPlayer(item, "consumable");
     }
 
     public static boolean isConsumable(Player player, ResourceLocation item) {
         return canPlayer(player, item, "consumable");
     }
 
-    public static boolean isHoldable(ResourceLocation item) {
-        return canPlayer(item, "holdable");
-    }
-
     public static boolean isHoldable(Player player, ResourceLocation item) {
         return canPlayer(player, item, "holdable");
-    }
-
-    public static boolean isIdentifiable(ResourceLocation item) {
-        return canPlayer(item, "identifiable");
     }
 
     public static boolean isIdentifiable(Player player, ResourceLocation item) {
         return canPlayer(player, item, "identifiable");
     }
 
-    public static boolean isHarmful(ResourceLocation item) {
-        return canPlayer(item, "harmful");
-    }
-
     public static boolean isHarmful(Player player, ResourceLocation item) {
         return canPlayer(player, item, "harmful");
     }
 
-    public static boolean isWearable(ResourceLocation item) {
-        return canPlayer(item, "wearable");
-    }
-
     public static boolean isWearable(Player player, ResourceLocation item) {
         return canPlayer(player, item, "wearable");
-    }
-
-    public static boolean isUsable(ResourceLocation item) {
-        return canPlayer(item, "usable");
     }
 
     public static boolean isUsable(Player player, ResourceLocation item) {
