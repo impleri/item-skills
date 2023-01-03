@@ -47,25 +47,30 @@ are set, so be sure to set actual restrictions.
 ### Examples
 
 ```js
+ItemSkillEvents.register(event => {
   // Bed item cannot be used at all unless player is at stage 2 (or later)
-  ItemSkillEvents.register('minecraft:bed', restrict => {
+  event.restrict('minecraft:bed', restrict => {
     restrict.everything()
       .if(player => player.cannot('skills:stage', 2));
+    });
+ 
+  // Bread can be picked up and used in other recipes if player is at stage 1 or below but it cannot be eaten or identified
+  event.restrict('minecraft:bread', restrict => {
+    restrict.everything()
+      .holdable()
+      .visible()
+      .unless(player => player.can('skills:stage', 2));
   });
  
- // Bread can be picked up and used in other recipes if player is at stage 1 or below but it cannot be eaten or identified
- ItemSkillEvents.register('minecraft:bread', restrict => {
-   restrict.everything()
-     .holdable()
-     .visible()
-     .unless(player => player.can('skills:stage', 2));
- });
- 
- // The following does not result in the same effects as above: everything will still be denied to the player
- ItemSkillEvents.register('minecraft:bread', restrict => {
-   restrict.everything().holdable().unless(player => player.can('skills:stage', 2));
-   restrict.everything().visible().unless(player => player.cannot('skills:stage', 2));
- });
+  // The following does not result in the same effects as above: everything will still be denied to the player
+  event.restrict('minecraft:bread', restrict => {
+    restrict.everything().holdable().unless(player => player.can('skills:stage', 2));
+  });
+  
+  event.restrict('minecraft:bread', restrict => {
+    restrict.everything().visible().unless(player => player.cannot('skills:stage', 2));
+  });
+});
 ```
 
 ## Modpacks
