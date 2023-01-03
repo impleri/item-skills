@@ -29,7 +29,7 @@ import java.util.HashMap;
 
 public class ItemSkills {
     public static final String MOD_ID = "itemskills";
-    public static final PlayerSkillsLogger LOGGER = PlayerSkillsLogger.create(MOD_ID, "PS-ITEM");
+    public static final PlayerSkillsLogger LOGGER = PlayerSkillsLogger.create(MOD_ID, "ITEMS");
 
     private static final ItemSkills INSTANCE = new ItemSkills();
 

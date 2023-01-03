@@ -7,7 +7,9 @@
   "client": [
     "MixinRecipeManager"
   ],
-  "server": [],
+  "server": [
+    "MixinCraftingMenu"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
