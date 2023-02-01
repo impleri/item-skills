@@ -24,7 +24,7 @@ public class ItemSkillsClient {
 
     private void beforeRenderItemTooltip(ItemStack stack, List<Component> lines, TooltipFlag flag) {
         var item = ItemSkills.getItemKey(stack);
-        if (!ClientApi.isIdentifiable(item)) {
+        if (!ClientApi.INSTANCE.isIdentifiable(item)) {
             ItemSkills.LOGGER.debug("Replacing tooltip for {}", item);
             lines.clear();
             lines.add(Component.translatable("message.itemskills.unknown_item").withStyle(ChatFormatting.RED));

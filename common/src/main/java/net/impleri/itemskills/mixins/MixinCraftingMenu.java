@@ -27,7 +27,7 @@ public class MixinCraftingMenu {
     private static boolean isCraftable(Player player, Recipe<?> recipe) {
         var item = recipe.getResultItem().getItem();
         ItemSkills.LOGGER.info("Checking if {} is craftable", item);
-        return Restrictions.isProducible(player, ItemSkills.getItemKey(item));
+        return Restrictions.INSTANCE.isProducible(player, ItemSkills.getItemKey(item));
     }
 
     @Inject(method = "slotChangedCraftingGrid", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/crafting/CraftingRecipe;assemble(Lnet/minecraft/world/Container;)Lnet/minecraft/world/item/ItemStack;"), cancellable = true)

@@ -13,7 +13,7 @@ public class ItemSkillsPlugin extends KubeJSPlugin {
 
     @Override
     public void initStartup() {
-        Registry.clear();
+        Registry.INSTANCE.clear();
         loadRestrictions();
     }
 

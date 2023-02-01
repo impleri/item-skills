@@ -17,6 +17,6 @@ public class RestrictionsRegistrationEventJS extends EventJS {
 
         var restriction = builder.createObject();
         ConsoleJS.STARTUP.info("Created item restriction for " + item);
-        Registry.add(name, restriction);
+        Registry.INSTANCE.add(name, restriction);
     }
 }

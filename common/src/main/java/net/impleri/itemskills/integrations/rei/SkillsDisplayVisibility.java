@@ -41,13 +41,13 @@ public class SkillsDisplayVisibility implements DisplayVisibilityPredicate {
      * Checks every ingredient to see if any are uncraftable
      */
     private boolean hasHiddenOutput(EntryStack<?> entry) {
-        return !ClientApi.isProducible(entry.getIdentifier());
+        return !ClientApi.INSTANCE.isProducible(entry.getIdentifier());
     }
 
     /**
      * Checks every ingredient to see if any are supposed to be hidden
      */
     private boolean hasHiddenInput(EntryStack<?> entry) {
-        return !ClientApi.isConsumable(entry.getIdentifier());
+        return !ClientApi.INSTANCE.isConsumable(entry.getIdentifier());
     }
 }
