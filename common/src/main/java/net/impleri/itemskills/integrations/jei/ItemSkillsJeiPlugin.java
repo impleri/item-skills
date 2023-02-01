@@ -53,7 +53,7 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
 
     private void processUnconsumables() {
         var manager = runtime.getIngredientManager();
-        var next = ClientApi.getUnconsumable();
+        var next = ClientApi.INSTANCE.getUnconsumable();
 
         // Nothing on either list, so don't bother
         if (currentUnconsumables.size() == 0 && next.size() == 0) {
@@ -78,7 +78,7 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
     }
 
     private void processUnproducibles() {
-        var next = ClientApi.getUnproducible();
+        var next = ClientApi.INSTANCE.getUnproducible();
 
         // Nothing on either list, so don't bother
         if (currentUnproducibles.size() == 0 && next.size() == 0) {

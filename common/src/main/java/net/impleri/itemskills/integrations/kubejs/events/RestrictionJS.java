@@ -1,18 +1,13 @@
 package net.impleri.itemskills.integrations.kubejs.events;
 
-import dev.latvian.mods.kubejs.BuilderBase;
 import dev.latvian.mods.kubejs.RegistryObjectBuilderTypes;
 import dev.latvian.mods.rhino.util.HideFromJS;
-import dev.latvian.mods.rhino.util.RemapForJS;
-import net.impleri.itemskills.integrations.kubejs.PlayerSkillDataJS;
 import net.impleri.itemskills.restrictions.Restriction;
+import net.impleri.playerskills.restrictions.AbstractRestrictionBuilder;
 import net.impleri.playerskills.utils.SkillResourceLocation;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-
-import java.util.function.Predicate;
 
 public class RestrictionJS extends Restriction {
     private static final ResourceKey<Registry<Restriction>> key = ResourceKey.createRegistryKey(SkillResourceLocation.of("item_restriction_builders_registry"));
@@ -33,9 +28,7 @@ public class RestrictionJS extends Restriction {
         );
     }
 
-    public static class Builder extends BuilderBase<Restriction> {
-        @HideFromJS
-        public Predicate<Player> condition = (Player player) -> true;
+    public static class Builder extends AbstractRestrictionBuilder<Restriction> {
 
         public boolean producible = true;
         public boolean consumable = true;
@@ -48,20 +41,6 @@ public class RestrictionJS extends Restriction {
         @HideFromJS
         public Builder(ResourceLocation id) {
             super(id);
-        }
-
-
-        @RemapForJS("if")
-        public Builder condition(Predicate<PlayerSkillDataJS> consumer) {
-            this.condition = (Player player) -> consumer.test(new PlayerSkillDataJS(player));
-
-            return this;
-        }
-
-        public Builder unless(Predicate<PlayerSkillDataJS> consumer) {
-            this.condition = (Player player) -> !consumer.test(new PlayerSkillDataJS(player));
-
-            return this;
         }
 
         public Builder producible() {

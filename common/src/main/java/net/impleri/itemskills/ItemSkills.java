@@ -70,7 +70,7 @@ public class ItemSkills {
         var item = getItemKey(stack);
         LOGGER.debug("{} is about to pickup {}", player.getName().getString(), item);
 
-        if (Restrictions.isHoldable(player, item)) {
+        if (Restrictions.INSTANCE.isHoldable(player, item)) {
             return EventResult.pass();
         }
 
@@ -93,7 +93,7 @@ public class ItemSkills {
                 return;
             }
 
-            if (!Restrictions.isWearable(player, item)) {
+            if (!Restrictions.INSTANCE.isWearable(player, item)) {
                 LOGGER.debug("{} should not be wearing {}", player.getName().getString(), item);
                 armorToRemove.put(armorSlot, stack);
             }
@@ -111,7 +111,7 @@ public class ItemSkills {
                 return;
             }
 
-            if (!Restrictions.isHoldable(player, item)) {
+            if (!Restrictions.INSTANCE.isHoldable(player, item)) {
                 LOGGER.debug("{} should not be holding {}", player.getName().getString(), item);
                 itemsToRemove.add(stack);
             }
@@ -131,7 +131,7 @@ public class ItemSkills {
 
             LOGGER.debug("{} is about to attack {} using {} for {} damage", player.getName().getString(), entity.getName().getString(), weapon, amount);
 
-            if (Restrictions.isHarmful(player, weapon)) {
+            if (Restrictions.INSTANCE.isHarmful(player, weapon)) {
                 return EventResult.pass();
             }
 
@@ -146,7 +146,7 @@ public class ItemSkills {
 
         LOGGER.debug("{} is about to mine {} using {}", player.getName().getString(), tool, state.getBlock().getName().getString());
 
-        if (Restrictions.isUsable(player, tool)) {
+        if (Restrictions.INSTANCE.isUsable(player, tool)) {
             return EventResult.pass();
         }
 
@@ -159,7 +159,7 @@ public class ItemSkills {
 
         LOGGER.debug("{} is about to interact with entity {} using {}", player.getName().getString(), entity.getName().getString(), tool);
 
-        if (Restrictions.isUsable(player, tool)) {
+        if (Restrictions.INSTANCE.isUsable(player, tool)) {
             return EventResult.pass();
         }
 
@@ -172,7 +172,7 @@ public class ItemSkills {
 
         LOGGER.debug("{} is about to use {}", player.getName().getString(), tool);
 
-        if (Restrictions.isUsable(player, tool)) {
+        if (Restrictions.INSTANCE.isUsable(player, tool)) {
             return CompoundEventResult.pass();
         }
 
@@ -185,7 +185,7 @@ public class ItemSkills {
 
         LOGGER.debug("{} is about to interact with block {} using {}", player.getName().getString(), player.level.getBlockState(pos).getBlock().getName().getString(), tool);
 
-        if (Restrictions.isUsable(player, tool)) {
+        if (Restrictions.INSTANCE.isUsable(player, tool)) {
             return EventResult.pass();
         }
 

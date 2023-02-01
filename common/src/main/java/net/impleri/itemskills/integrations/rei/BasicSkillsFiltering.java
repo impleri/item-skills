@@ -20,7 +20,7 @@ public class BasicSkillsFiltering {
 
     public static void updateHidden(ClientSkillsUpdatedEvent event) {
         ItemSkills.LOGGER.debug("Client skills list has been updated: {}", event.next());
-        var nextHidden = ClientApi.getHidden();
+        var nextHidden = ClientApi.INSTANCE.getHidden();
 
         // Nothing on either list, so don't bother
         if (currentlyFiltered.size() == 0 && nextHidden.size() == 0) {
@@ -45,7 +45,7 @@ public class BasicSkillsFiltering {
     }
 
     public static void register(BasicFilteringRule<?> rule) {
-        filteringRule = rule.hide(() -> ClientApi.getHidden().stream()
+        filteringRule = rule.hide(() -> ClientApi.INSTANCE.getHidden().stream()
                 .map(item -> EntryStacks.of(Registry.ITEM.get(item)).cast())
                 .collect(Collectors.toList()));
     }

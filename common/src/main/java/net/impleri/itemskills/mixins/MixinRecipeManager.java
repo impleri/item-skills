@@ -21,7 +21,7 @@ public class MixinRecipeManager {
     private boolean isCraftable(Recipe<?> recipe) {
         var item = recipe.getResultItem().getItem();
         ItemSkills.LOGGER.info("Checking if {} is craftable", item);
-        return ClientApi.isProducible(ItemSkills.getItemKey(item));
+        return ClientApi.INSTANCE.isProducible(ItemSkills.getItemKey(item));
     }
 
     @Inject(method = "getRecipeFor(Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/world/Container;Lnet/minecraft/world/level/Level;)Ljava/util/Optional;", at = @At(value = "RETURN"), cancellable = true)
