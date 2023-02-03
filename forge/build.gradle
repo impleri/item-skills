@@ -29,7 +29,7 @@ dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
     modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
-    modRuntimeOnly "net.impleri:player-skills-forge:${rootProject.playerskills_version}"
+    modRuntimeOnly "net.impleri:player-skills-${rootProject.minecraft_version}-forge:${rootProject.playerskills_version}"
 
     modRuntimeOnly "dev.latvian.mods:kubejs-forge:${rootProject.kubejs_version}"
 
