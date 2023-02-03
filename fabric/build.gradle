@@ -24,7 +24,7 @@ dependencies {
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
 
-    modRuntimeOnly "net.impleri:player-skills-fabric:${rootProject.playerskills_version}"
+    modRuntimeOnly "net.impleri:player-skills-${rootProject.minecraft_version}-fabric:${rootProject.playerskills_version}"
 
     modRuntimeOnly "dev.latvian.mods:kubejs-fabric:${rootProject.kubejs_version}"
 

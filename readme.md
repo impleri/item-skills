@@ -52,8 +52,8 @@ ItemSkillEvents.register(event => {
   event.restrict('minecraft:bed', restrict => {
     restrict.everything()
       .if(player => player.cannot('skills:stage', 2));
-    });
- 
+  });
+
   // Bread can be picked up and used in other recipes if player is at stage 1 or below but it cannot be eaten or identified
   event.restrict('minecraft:bread', restrict => {
     restrict.everything()
@@ -61,12 +61,12 @@ ItemSkillEvents.register(event => {
       .visible()
       .unless(player => player.can('skills:stage', 2));
   });
- 
+
   // The following does not result in the same effects as above: everything will still be denied to the player
   event.restrict('minecraft:bread', restrict => {
     restrict.everything().holdable().unless(player => player.can('skills:stage', 2));
   });
-  
+
   event.restrict('minecraft:bread', restrict => {
     restrict.everything().visible().unless(player => player.cannot('skills:stage', 2));
   });
@@ -79,8 +79,8 @@ Want to use this in a modpack? Great! This was designed with modpack developers 
 
 ## TODOS
 
-- [] Implement restrictions based on tags
-- [] Implement restrictions based on mod IDs
+- [] Implement restrictions based on tags `#tag`
+- [] Implement restrictions based on mod IDs `@modid`
 - [] Implement replacement items
 - [] Check OFFHAND, Curios, Trinkets
     - https://github.com/TheIllusiveC4/Curios/blob/1.19.x/src/main/java/top/theillusivec4/curios/api/type/util/ICuriosHelper.java#L52
