@@ -9,10 +9,10 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
-public class ClientApi extends RestrictionsClient<Restriction> {
+public class ClientApi extends RestrictionsClient<ResourceLocation, Restriction> {
     public static final ClientApi INSTANCE = new ClientApi(Registry.INSTANCE, Restrictions.INSTANCE);
 
-    private ClientApi(net.impleri.playerskills.restrictions.Registry<Restriction> registry, RestrictionsApi<Restriction> serverApi) {
+    private ClientApi(net.impleri.playerskills.restrictions.Registry<Restriction> registry, RestrictionsApi<ResourceLocation, Restriction> serverApi) {
         super(registry, serverApi);
     }
 

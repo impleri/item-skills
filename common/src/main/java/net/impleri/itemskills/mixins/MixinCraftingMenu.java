@@ -1,5 +1,6 @@
 package net.impleri.itemskills.mixins;
 
+import net.impleri.itemskills.ItemHelper;
 import net.impleri.itemskills.ItemSkills;
 import net.impleri.itemskills.api.Restrictions;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
@@ -27,7 +28,7 @@ public class MixinCraftingMenu {
     private static boolean isCraftable(Player player, Recipe<?> recipe) {
         var item = recipe.getResultItem().getItem();
         ItemSkills.LOGGER.info("Checking if {} is craftable", item);
-        return Restrictions.INSTANCE.isProducible(player, ItemSkills.getItemKey(item));
+        return Restrictions.INSTANCE.isProducible(player, ItemHelper.getItemKey(item));
     }
 
     @Inject(method = "slotChangedCraftingGrid", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/crafting/CraftingRecipe;assemble(Lnet/minecraft/world/Container;)Lnet/minecraft/world/item/ItemStack;"), cancellable = true)
