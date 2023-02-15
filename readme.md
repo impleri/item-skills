@@ -76,12 +76,3 @@ ItemSkillEvents.register(event => {
 ## Modpacks
 
 Want to use this in a modpack? Great! This was designed with modpack developers in mind. No need to ask.
-
-## TODOS
-
-- [] Implement restrictions based on tags `#tag`
-- [] Implement restrictions based on mod IDs `@modid`
-- [] Implement replacement items
-- [] Check OFFHAND, Curios, Trinkets
-    - https://github.com/TheIllusiveC4/Curios/blob/1.19.x/src/main/java/top/theillusivec4/curios/api/type/util/ICuriosHelper.java#L52
-    - https://github.com/emilyploszaj/trinkets/blob/main/src/main/java/dev/emi/trinkets/api/TrinketsApi.java#L62
