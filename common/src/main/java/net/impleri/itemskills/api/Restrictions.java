@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player;
 
 import java.lang.reflect.Field;
 
-public class Restrictions extends RestrictionsApi<Restriction> {
+public class Restrictions extends RestrictionsApi<ResourceLocation, Restriction> {
     private static final Field[] allRestrictionFields = Restriction.class.getDeclaredFields();
 
     public static final Restrictions INSTANCE = new Restrictions(Registry.INSTANCE, allRestrictionFields);
