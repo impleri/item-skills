@@ -1,6 +1,7 @@
 package net.impleri.itemskills.mixins;
 
 import com.mojang.datafixers.util.Pair;
+import net.impleri.itemskills.ItemHelper;
 import net.impleri.itemskills.ItemSkills;
 import net.impleri.itemskills.client.ClientApi;
 import net.minecraft.resources.ResourceLocation;
@@ -21,7 +22,7 @@ public class MixinRecipeManager {
     private boolean isCraftable(Recipe<?> recipe) {
         var item = recipe.getResultItem().getItem();
         ItemSkills.LOGGER.info("Checking if {} is craftable", item);
-        return ClientApi.INSTANCE.isProducible(ItemSkills.getItemKey(item));
+        return ClientApi.INSTANCE.isProducible(ItemHelper.getItemKey(item));
     }
 
     @Inject(method = "getRecipeFor(Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/world/Container;Lnet/minecraft/world/level/Level;)Ljava/util/Optional;", at = @At(value = "RETURN"), cancellable = true)

@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Predicate;
 
-class ItemHelper {
+public class ItemHelper {
     public static ResourceLocation getItemKey(ItemStack stack) {
         return getItemKey(stack.isEmpty() ? null : stack.getItem());
     }

@@ -1,6 +1,7 @@
 package net.impleri.itemskills.client;
 
 import dev.architectury.event.events.client.ClientTooltipEvent;
+import net.impleri.itemskills.ItemHelper;
 import net.impleri.itemskills.ItemSkills;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -23,7 +24,7 @@ public class ItemSkillsClient {
     }
 
     private void beforeRenderItemTooltip(ItemStack stack, List<Component> lines, TooltipFlag flag) {
-        var item = ItemSkills.getItemKey(stack);
+        var item = ItemHelper.getItemKey(stack);
         if (!ClientApi.INSTANCE.isIdentifiable(item)) {
             ItemSkills.LOGGER.debug("Replacing tooltip for {}", item);
             lines.clear();
