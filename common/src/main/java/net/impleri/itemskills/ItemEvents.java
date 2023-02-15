@@ -61,6 +61,8 @@ class ItemEvents {
 
         // Move unwearable items from armor and offhand into normal inventory
         ItemHelper.isListWearable(player, inventory.armor);
+        ItemHelper.isListWearable(player, inventory.offhand);
+        ItemHelper.isListHoldable(player, inventory.offhand);
 
         // Drop unholdable items from inventory
         ArrayList<ItemStack> itemsToRemove = new ArrayList<>();
