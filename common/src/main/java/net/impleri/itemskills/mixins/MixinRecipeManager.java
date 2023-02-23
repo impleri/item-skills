@@ -1,7 +1,6 @@
 package net.impleri.itemskills.mixins;
 
 import com.mojang.datafixers.util.Pair;
-import net.impleri.itemskills.ItemHelper;
 import net.impleri.itemskills.ItemSkills;
 import net.impleri.itemskills.client.ClientApi;
 import net.minecraft.resources.ResourceLocation;
@@ -19,10 +18,10 @@ import java.util.Optional;
 
 @Mixin(RecipeManager.class)
 public class MixinRecipeManager {
-    private boolean isCraftable(Recipe<?> recipe) {
+    private boolean isProducible(Recipe<?> recipe) {
         var item = recipe.getResultItem().getItem();
-        ItemSkills.LOGGER.info("Checking if {} is craftable", item);
-        return ClientApi.INSTANCE.isProducible(ItemHelper.getItemKey(item));
+        ItemSkills.LOGGER.info("Checking if {} is producible", item);
+        return ClientApi.INSTANCE.isProducible(item);
     }
 
     @Inject(method = "getRecipeFor(Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/world/Container;Lnet/minecraft/world/level/Level;)Ljava/util/Optional;", at = @At(value = "RETURN"), cancellable = true)
@@ -32,7 +31,7 @@ public class MixinRecipeManager {
             return;
         }
 
-        if (!isCraftable(value.get())) {
+        if (!isProducible(value.get())) {
             cir.setReturnValue(Optional.empty());
         }
     }
@@ -44,7 +43,7 @@ public class MixinRecipeManager {
             return;
         }
 
-        if (!isCraftable(value.get().getSecond())) {
+        if (!isProducible(value.get().getSecond())) {
             cir.setReturnValue(Optional.empty());
         }
     }
@@ -56,7 +55,7 @@ public class MixinRecipeManager {
             return;
         }
 
-        if (!isCraftable(value.get())) {
+        if (!isProducible(value.get())) {
             cir.setReturnValue(Optional.empty());
         }
     }

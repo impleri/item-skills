@@ -7,12 +7,13 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.runtime.IJeiRuntime;
+import net.impleri.itemskills.ItemHelper;
 import net.impleri.itemskills.ItemSkills;
 import net.impleri.itemskills.client.ClientApi;
 import net.impleri.itemskills.utils.ListDiff;
 import net.impleri.playerskills.client.events.ClientSkillsUpdatedEvent;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,15 +23,15 @@ import java.util.List;
 
 public class ItemSkillsJeiPlugin implements IModPlugin {
     private IJeiRuntime runtime;
-    private final List<ResourceLocation> currentUnconsumables = new ArrayList<>();
-    private final List<ResourceLocation> currentUnproducibles = new ArrayList<>();
+    private final List<Item> currentUnconsumables = new ArrayList<>();
+    private final List<Item> currentUnproducibles = new ArrayList<>();
 
     public ItemSkillsJeiPlugin() {
         ClientSkillsUpdatedEvent.EVENT.register(this::updateHidden);
     }
 
     @Override
-    public ResourceLocation getPluginUid() {
+    public @NotNull ResourceLocation getPluginUid() {
         return new ResourceLocation(ItemSkills.MOD_ID, "jei_plugin");
     }
 
@@ -61,15 +62,17 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
             return;
         }
 
-        var toShow = ListDiff.getMissing(currentUnconsumables, next);
+        ItemSkills.LOGGER.debug("Found {} unconsumable item(s)", next.size());
 
+        var toShow = ListDiff.getMissing(currentUnconsumables, next);
         if (toShow.size() > 0) {
+            ItemSkills.LOGGER.debug("Showing {} item(s) based on consumables: {}", toShow.size(), toShow.stream().map(ItemHelper::getItemKey).toList().toString());
             manager.addIngredientsAtRuntime(VanillaTypes.ITEM_STACK, getItemStack(toShow));
         }
 
         var toHide = ListDiff.getMissing(next, currentUnconsumables);
-
         if (toHide.size() > 0) {
+            ItemSkills.LOGGER.debug("Hiding {} item(s) based on consumables: {}", toHide.size(), toHide.stream().map(ItemHelper::getItemKey).toList().toString());
             manager.removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, getItemStack(toHide));
         }
 
@@ -86,11 +89,15 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
             return;
         }
 
+        ItemSkills.LOGGER.debug("Found {} unproducible item(s)", next.size());
+
         var toShow = ListDiff.getMissing(currentUnproducibles, next);
 
         if (toShow.size() > 0) {
             var foci = getFociFor(toShow);
             var types = getTypesFor(foci, true);
+
+            ItemSkills.LOGGER.debug("Showing {} item(s) based on producibles: {}", toShow.size(), toShow.stream().map(ItemHelper::getItemKey).toList().toString());
 
             types.forEach(type -> showRecipesForType(type, foci));
         }
@@ -101,6 +108,8 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
             var foci = getFociFor(toHide);
             var types = getTypesFor(foci, false);
 
+            ItemSkills.LOGGER.debug("Hiding {} item(s) based on producibles: {}", toHide.size(), toHide.stream().map(ItemHelper::getItemKey).toList().toString());
+
             types.forEach(type -> hideRecipesForType(type, foci));
         }
 
@@ -108,17 +117,15 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
         currentUnproducibles.addAll(next);
     }
 
-    private List<IFocus<ItemStack>> getFociFor(List<ResourceLocation> items) {
+    private List<IFocus<ItemStack>> getFociFor(List<Item> items) {
         var factory = runtime.getJeiHelpers().getFocusFactory();
 
-        return items.stream()
-                .map(Registry.ITEM::get)
-                .map(ItemStack::new)
+        return getItemStack(items).stream()
                 .map(item -> factory.createFocus(RecipeIngredientRole.OUTPUT, VanillaTypes.ITEM_STACK, item))
                 .toList();
     }
 
-    private <T> Collection<? extends RecipeType<?>> getTypesFor(List<IFocus<ItemStack>> foci, boolean includeHidden) {
+    private Collection<? extends RecipeType<?>> getTypesFor(List<IFocus<ItemStack>> foci, boolean includeHidden) {
         var lookup = runtime.getRecipeManager().createRecipeCategoryLookup()
                 .limitFocus(foci);
 
@@ -151,9 +158,9 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
         return lookup.get().toList();
     }
 
-    private Collection<ItemStack> getItemStack(List<ResourceLocation> items) {
+    private Collection<ItemStack> getItemStack(List<Item> items) {
         return items.stream()
-                .map(item -> new ItemStack(Registry.ITEM.get(item)))
+                .map(ItemStack::new)
                 .toList();
     }
 }

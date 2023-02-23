@@ -1,15 +1,15 @@
 package net.impleri.itemskills;
 
 import net.impleri.itemskills.api.Restrictions;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-
-import java.util.function.Predicate;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Recipe;
 
 public class ItemHelper {
     public static ResourceLocation getItemKey(ItemStack stack) {
@@ -20,34 +20,58 @@ public class ItemHelper {
         return Registry.ITEM.getKey(item);
     }
 
-    public static final ResourceLocation defaultItem = getItemKey((Item) null);
-
-    public static ItemStack getItemUsed(Player player, InteractionHand hand) {
-        return (hand == InteractionHand.OFF_HAND) ? player.getOffhandItem() : player.getMainHandItem();
+    public static Item getItem(ResourceLocation resource) {
+        return Registry.ITEM.get(resource);
     }
 
-    public static void isListWearable(Player player, NonNullList<ItemStack> list) {
-        iterateList(list, player, (ResourceLocation item) -> Restrictions.INSTANCE.isWearable(player, item));
+    public static Item getItem(ItemStack stack) {
+        return stack.getItem();
     }
 
-    public static void isListHoldable(Player player, NonNullList<ItemStack> list) {
-        iterateList(list, player, (ResourceLocation item) -> Restrictions.INSTANCE.isHoldable(player, item));
+    public static Item getItem(ItemEntity entity) {
+        return getItem(entity.getItem());
     }
 
-    private static void iterateList(NonNullList<ItemStack> list, Player player, Predicate<ResourceLocation> isItemAllowed) {
-        int i;
-        for (i = 0; i < list.size(); ++i) {
-            var stack = list.get(i);
-            var item = getItemKey(stack);
-            if (item.equals(defaultItem)) {
-                return;
-            }
+    public static ItemStack getItemStack(ResourceLocation resource) {
+        var item = getItem(resource);
 
-            if (!isItemAllowed.test(item)) {
-                ItemSkills.LOGGER.debug("{} should not be holding {}", player.getName().getString(), item);
-                list.set(i, ItemStack.EMPTY);
-                player.getInventory().placeItemBackInInventory(stack);
-            }
-        }
+        return new ItemStack(item);
+    }
+
+    public static boolean isEmptyItem(Item item) {
+        return (item == null || item == Items.AIR);
+    }
+
+    public static Item getItemUsed(Player player, InteractionHand hand) {
+        var item = (hand == InteractionHand.OFF_HAND) ? player.getOffhandItem() : player.getMainHandItem();
+
+        return getItem(item);
+    }
+
+    public static boolean isHoldable(Player player, Item item) {
+        return Restrictions.INSTANCE.isHoldable(player, item);
+    }
+
+    public static boolean isWearable(Player player, Item item) {
+        return Restrictions.INSTANCE.isWearable(player, item);
+    }
+
+    public static boolean isProducible(Player player, Item item) {
+        return Restrictions.INSTANCE.isProducible(player, item);
+    }
+
+    public static boolean isConsumable(Player player, Item item) {
+        return Restrictions.INSTANCE.isConsumable(player, item);
+    }
+
+    public static boolean isIdentifiable(Player player, Item item) {
+        return Restrictions.INSTANCE.isIdentifiable(player, item);
+    }
+
+    public static boolean isProducible(Player player, Recipe<?> recipe) {
+        var item = recipe.getResultItem().getItem();
+        ItemSkills.LOGGER.debug("Checking if {} is producible", item);
+
+        return isProducible(player, item);
     }
 }

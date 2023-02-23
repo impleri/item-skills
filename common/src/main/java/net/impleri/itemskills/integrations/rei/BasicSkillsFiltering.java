@@ -6,8 +6,7 @@ import net.impleri.itemskills.ItemSkills;
 import net.impleri.itemskills.client.ClientApi;
 import net.impleri.itemskills.utils.ListDiff;
 import net.impleri.playerskills.client.events.ClientSkillsUpdatedEvent;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 public class BasicSkillsFiltering {
     private static BasicFilteringRule.MarkDirty filteringRule;
 
-    private static final List<ResourceLocation> currentlyFiltered = new ArrayList<>();
+    private static final List<Item> currentlyFiltered = new ArrayList<>();
 
     public static void updateHidden(ClientSkillsUpdatedEvent event) {
         ItemSkills.LOGGER.debug("Client skills list has been updated: {}", event.next());
@@ -46,7 +45,7 @@ public class BasicSkillsFiltering {
 
     public static void register(BasicFilteringRule<?> rule) {
         filteringRule = rule.hide(() -> ClientApi.INSTANCE.getHidden().stream()
-                .map(item -> EntryStacks.of(Registry.ITEM.get(item)).cast())
+                .map(item -> EntryStacks.of(item).cast())
                 .collect(Collectors.toList()));
     }
 }

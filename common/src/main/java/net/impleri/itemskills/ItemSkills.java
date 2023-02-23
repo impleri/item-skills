@@ -10,6 +10,7 @@ public class ItemSkills {
 
     public static void init() {
         LOGGER.info("Loaded Item Skills");
+        LOGGER.enableDebug();
         INSTANCE.registerEventHandlers();
     }
 }
