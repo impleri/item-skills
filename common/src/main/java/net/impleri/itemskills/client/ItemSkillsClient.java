@@ -24,7 +24,7 @@ public class ItemSkillsClient {
     }
 
     private void beforeRenderItemTooltip(ItemStack stack, List<Component> lines, TooltipFlag flag) {
-        var item = ItemHelper.getItemKey(stack);
+        var item = ItemHelper.getItem(stack);
         if (!ClientApi.INSTANCE.isIdentifiable(item)) {
             ItemSkills.LOGGER.debug("Replacing tooltip for {}", item);
             lines.clear();

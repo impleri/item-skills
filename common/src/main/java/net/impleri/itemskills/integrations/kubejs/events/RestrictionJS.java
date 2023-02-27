@@ -2,22 +2,25 @@ package net.impleri.itemskills.integrations.kubejs.events;
 
 import dev.latvian.mods.kubejs.RegistryObjectBuilderTypes;
 import dev.latvian.mods.rhino.util.HideFromJS;
+import net.impleri.itemskills.ItemHelper;
 import net.impleri.itemskills.restrictions.Restriction;
 import net.impleri.playerskills.restrictions.AbstractRestrictionBuilder;
 import net.impleri.playerskills.utils.SkillResourceLocation;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 
 public class RestrictionJS extends Restriction {
     private static final ResourceKey<Registry<Restriction>> key = ResourceKey.createRegistryKey(SkillResourceLocation.of("item_restriction_builders_registry"));
 
     public static final RegistryObjectBuilderTypes<Restriction> registry = RegistryObjectBuilderTypes.add(key, Restriction.class);
 
-    public RestrictionJS(Builder builder) {
+    public RestrictionJS(Item item, Builder builder) {
         super(
-                builder.id,
+                item,
                 builder.condition,
+                builder.replacement,
                 builder.producible,
                 builder.consumable,
                 builder.holdable,
@@ -29,6 +32,7 @@ public class RestrictionJS extends Restriction {
     }
 
     public static class Builder extends AbstractRestrictionBuilder<Restriction> {
+        public Item replacement;
 
         public boolean producible = true;
         public boolean consumable = true;
@@ -43,9 +47,15 @@ public class RestrictionJS extends Restriction {
             super(id);
         }
 
+        public Builder replaceWith(ResourceLocation replacement) {
+            this.replacement = ItemHelper.getItem(replacement);
+
+            return this;
+        }
+
         public Builder producible() {
             this.producible = true;
-            holdable = true;
+            this.holdable = true;
 
             return this;
         }
@@ -58,7 +68,7 @@ public class RestrictionJS extends Restriction {
 
         public Builder consumable() {
             this.consumable = true;
-            holdable = true;
+            this.holdable = true;
 
             return this;
         }
@@ -77,11 +87,11 @@ public class RestrictionJS extends Restriction {
 
         public Builder unholdable() {
             this.holdable = false;
-            producible = false;
-            consumable = false;
-            harmful = false;
-            wearable = false;
-            usable = false;
+            this.producible = false;
+            this.consumable = false;
+            this.harmful = false;
+            this.wearable = false;
+            this.usable = false;
 
             return this;
         }
@@ -100,7 +110,7 @@ public class RestrictionJS extends Restriction {
 
         public Builder harmful() {
             this.harmful = true;
-            holdable = true;
+            this.holdable = true;
 
             return this;
         }
@@ -113,7 +123,7 @@ public class RestrictionJS extends Restriction {
 
         public Builder wearable() {
             this.wearable = true;
-            holdable = true;
+            this.holdable = true;
 
             return this;
         }
@@ -126,7 +136,7 @@ public class RestrictionJS extends Restriction {
 
         public Builder usable() {
             this.usable = true;
-            holdable = true;
+            this.holdable = true;
 
             return this;
         }
@@ -138,25 +148,25 @@ public class RestrictionJS extends Restriction {
         }
 
         public Builder nothing() {
-            producible = true;
-            consumable = true;
-            holdable = true;
-            identifiable = true;
-            harmful = true;
-            wearable = true;
-            usable = true;
+            this.producible = true;
+            this.consumable = true;
+            this.holdable = true;
+            this.identifiable = true;
+            this.harmful = true;
+            this.wearable = true;
+            this.usable = true;
 
             return this;
         }
 
         public Builder everything() {
-            producible = false;
-            consumable = false;
-            holdable = false;
-            identifiable = false;
-            harmful = false;
-            wearable = false;
-            usable = false;
+            this.producible = false;
+            this.consumable = false;
+            this.holdable = false;
+            this.identifiable = false;
+            this.harmful = false;
+            this.wearable = false;
+            this.usable = false;
 
             return this;
         }
@@ -170,7 +180,12 @@ public class RestrictionJS extends Restriction {
         @HideFromJS
         @Override
         public Restriction createObject() {
-            return new RestrictionJS(this);
+            return null;
+        }
+
+        @HideFromJS
+        public Restriction createObject(Item item) {
+            return new RestrictionJS(item, this);
         }
     }
 }

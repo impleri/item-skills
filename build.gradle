@@ -18,6 +18,8 @@ subprojects {
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
         mappings loom.officialMojangMappings()
+
+        modCompileOnly "me.shedaniel:REIPluginCompatibilities-forge-annotations:9+"
     }
 }
 

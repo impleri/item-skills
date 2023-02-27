@@ -48,6 +48,12 @@ are set, so be sure to set actual restrictions.
 
 ```js
 ItemSkillEvents.register(event => {
+  // Vanilla items cannot be used at all unless player is at stage 2 (or later)
+  event.restrict('minecraft:*', restrict => {
+    restrict.everything()
+      .if(player => player.cannot('skills:stage', 2));
+  });
+
   // Bed item cannot be used at all unless player is at stage 2 (or later)
   event.restrict('minecraft:bed', restrict => {
     restrict.everything()
@@ -72,6 +78,11 @@ ItemSkillEvents.register(event => {
   });
 });
 ```
+
+### Caveats
+
+JEI integration does not remove recipes related to the `unconsumable` flag. It does hide the recipes from right-clicking
+on the ingredient. However, it does not remove the recipe itself -- only `unconsumable` does that.
 
 ## Modpacks
 

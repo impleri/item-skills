@@ -1,8 +1,6 @@
 package net.impleri.itemskills.mixins;
 
 import net.impleri.itemskills.ItemHelper;
-import net.impleri.itemskills.ItemSkills;
-import net.impleri.itemskills.api.Restrictions;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -25,20 +23,20 @@ import java.util.Optional;
 
 @Mixin(CraftingMenu.class)
 public class MixinCraftingMenu {
-    private static boolean isCraftable(Player player, Recipe<?> recipe) {
-        var item = recipe.getResultItem().getItem();
-        ItemSkills.LOGGER.info("Checking if {} is craftable", item);
-        return Restrictions.INSTANCE.isProducible(player, ItemHelper.getItemKey(item));
-    }
 
     @Inject(method = "slotChangedCraftingGrid", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/crafting/CraftingRecipe;assemble(Lnet/minecraft/world/Container;)Lnet/minecraft/world/item/ItemStack;"), cancellable = true)
     private static <C extends Container, T extends Recipe<C>> void onGetRecipeFor(AbstractContainerMenu abstractContainerMenu, Level level, Player player, CraftingContainer craftingContainer, ResultContainer resultContainer, CallbackInfo ci) {
-        Optional<CraftingRecipe> value = level.getServer().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, craftingContainer, level);
+        var server = level.getServer();
+        if (server == null) {
+            return;
+        }
+
+        Optional<CraftingRecipe> value = server.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, craftingContainer, level);
         if (value.isEmpty()) {
             return;
         }
 
-        if (!isCraftable(player, value.get())) {
+        if (!ItemHelper.isProducible(player, value.get())) {
             ci.cancel();
             ServerPlayer serverPlayer = (ServerPlayer) player;
             serverPlayer.connection.send(new ClientboundContainerSetSlotPacket(abstractContainerMenu.containerId, abstractContainerMenu.incrementStateId(), 0, ItemStack.EMPTY));
