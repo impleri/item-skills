@@ -1,5 +1,6 @@
 package net.impleri.itemskills.integrations.jei;
 
+import me.shedaniel.rei.plugincompatibilities.api.REIPluginCompatIgnore;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.recipe.IFocus;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@REIPluginCompatIgnore()
 public class ItemSkillsJeiPlugin implements IModPlugin {
     private IJeiRuntime runtime;
     private final List<Item> currentUnconsumables = new ArrayList<>();
