@@ -3,10 +3,12 @@ package net.impleri.itemskills;
 import dev.architectury.event.CompoundEventResult;
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.*;
+import dev.architectury.platform.Platform;
 import dev.architectury.utils.value.IntValue;
 import net.impleri.itemskills.api.Restrictions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -24,6 +26,7 @@ import java.util.List;
 
 class ItemEvents {
     public void registerEventHandlers() {
+        LifecycleEvent.SERVER_STARTING.register(this::onStartup);
         TickEvent.PLAYER_POST.register(this::onPlayerTick);
 
         PlayerEvent.PICKUP_ITEM_PRE.register(this::beforePlayerPickup);
@@ -35,6 +38,12 @@ class ItemEvents {
 
         EntityEvent.LIVING_HURT.register(this::beforePlayerAttack);
         BlockEvent.BREAK.register(this::beforeMine);
+    }
+
+    private void onStartup(MinecraftServer minecraftServer) {
+        if (Platform.isModLoaded("kubejs")) {
+            net.impleri.itemskills.integrations.kubejs.ItemSkillsPlugin.onStartup();
+        }
     }
 
     private void onPlayerTick(Player player) {
