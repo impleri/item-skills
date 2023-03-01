@@ -134,7 +134,7 @@ class ItemEvents {
     private EventResult beforeUseItemBlock(Player player, InteractionHand hand, BlockPos pos, Direction face) {
         var tool = ItemHelper.getItemUsed(player, hand);
 
-        if (Restrictions.INSTANCE.isUsable(player, tool)) {
+        if (ItemHelper.isEmptyItem(tool) || Restrictions.INSTANCE.isUsable(player, tool)) {
             return EventResult.pass();
         }
 

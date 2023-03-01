@@ -43,6 +43,7 @@
   },
   "suggests": {
     "roughlyenoughitems": ">=9.0.0",
-    "jei": ">=11.0.0"
+    "jei": ">=11.0.0",
+    "trinkets": ">=3.5"
   }
 }
