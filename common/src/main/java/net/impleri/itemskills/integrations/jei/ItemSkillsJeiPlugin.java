@@ -60,7 +60,7 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
 
         // Nothing on either list, so don't bother
         if (currentUnconsumables.size() == 0 && next.size() == 0) {
-            ItemSkills.LOGGER.warn("No changes in restrictions");
+            ItemSkills.LOGGER.debug("No changes in restrictions");
             return;
         }
 
@@ -87,7 +87,7 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
 
         // Nothing on either list, so don't bother
         if (currentUnproducibles.size() == 0 && next.size() == 0) {
-            ItemSkills.LOGGER.warn("No changes in restrictions");
+            ItemSkills.LOGGER.debug("No changes in restrictions");
             return;
         }
 
