@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 public class InventoryHelper {
     private static Predicate<ItemStack> shouldRemoveItem(Player player, boolean wearable) {
         return (ItemStack stack) -> {
-            if (!stack.isEmpty()) {
+            if (stack != null && !stack.isEmpty()) {
                 var item = ItemHelper.getItem(stack);
 
                 var isHoldable = ItemHelper.isHoldable(player, item);
