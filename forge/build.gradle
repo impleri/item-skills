@@ -24,6 +24,9 @@ loom {
     }
 }
 
+repositories {
+    maven { url "https://maven.theillusivec4.top/" }
+}
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
@@ -32,6 +35,10 @@ dependencies {
     modRuntimeOnly "net.impleri:player-skills-${rootProject.minecraft_version}-forge:${rootProject.playerskills_version}"
 
     modRuntimeOnly "dev.latvian.mods:kubejs-forge:${rootProject.kubejs_version}"
+
+    modRuntimeOnly "top.theillusivec4.curios:curios-forge:${rootProject.curios_version}"
+    modCompileOnly "top.theillusivec4.curios:curios-forge:${rootProject.curios_version}:api"
+
 
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-forge:${rootProject.rei_version}"
     modImplementation "me.shedaniel:RoughlyEnoughItems-forge:${rootProject.rei_version}"

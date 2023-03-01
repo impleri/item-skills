@@ -36,7 +36,7 @@ allprojects {
         mavenLocal()
 
         maven {
-            url = "https://maven.pkg.github.com/impleri/player-skills"
+            url "https://maven.pkg.github.com/impleri/player-skills"
             credentials {
                 username = rootProject.findProperty("gpr.user") ?: System.getenv("GH_USER")
                 password = rootProject.findProperty("gpr.token") ?: System.getenv("GH_TOKEN")
@@ -46,7 +46,7 @@ allprojects {
         maven { url "https://maven.shedaniel.me" }
 
         maven {
-            url = "https://maven.architectury.dev"
+            url "https://maven.architectury.dev"
             content {
                 includeGroup "dev.architectury"
             }
@@ -54,7 +54,7 @@ allprojects {
         maven { url "https://maven.blamejared.com" }
 
         maven {
-            url = "https://maven.saps.dev/minecraft"
+            url "https://maven.saps.dev/minecraft"
             content {
                 includeGroup "dev.latvian.mods"
             }
@@ -62,13 +62,13 @@ allprojects {
 
         maven {
             // location of the maven that hosts JEI files
-            name = "Progwml6 maven"
-            url = "https://dvs1.progwml6.com/files/maven/"
+            name "Progwml6 maven"
+            url "https://dvs1.progwml6.com/files/maven/"
         }
         maven {
             // location of a maven mirror for JEI files, as a fallback
-            name = "ModMaven"
-            url = "https://modmaven.dev"
+            name "ModMaven"
+            url "https://modmaven.dev"
         }
 
         mavenCentral()

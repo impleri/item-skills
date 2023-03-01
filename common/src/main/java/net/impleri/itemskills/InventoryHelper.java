@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-class InventoryHelper {
+public class InventoryHelper {
     private static Predicate<ItemStack> shouldRemoveItem(Player player, boolean wearable) {
         return (ItemStack stack) -> {
             if (!stack.isEmpty()) {
@@ -31,11 +31,15 @@ class InventoryHelper {
                 .toList();
     }
 
+    public static void moveItemIntoInventory(Player player, ItemStack stack) {
+        player.getInventory().placeItemBackInInventory(stack);
+    }
+
     private static void removeFromEquippedSlot(Player player, NonNullList<ItemStack> list, ItemStack stack, int index) {
         ItemSkills.LOGGER.debug("{} should not have {} equipped", player.getName().getString(), ItemHelper.getItemKey(stack));
 
         list.set(index, ItemStack.EMPTY);
-        player.getInventory().placeItemBackInInventory(stack);
+        moveItemIntoInventory(player, stack);
     }
 
     public static void filterFromList(Player player, NonNullList<ItemStack> list) {
