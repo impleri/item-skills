@@ -5,23 +5,21 @@ import dev.latvian.mods.kubejs.util.ConsoleJS;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import net.impleri.itemskills.ItemHelper;
 import net.impleri.itemskills.restrictions.Registry;
-import net.impleri.playerskills.utils.SkillResourceLocation;
+import net.impleri.playerskills.utils.RegistrationType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
 public class RestrictionsRegistrationEventJS extends EventJS {
     public void restrict(String itemName, @NotNull Consumer<RestrictionJS.Builder> consumer) {
-        if (itemName.trim().endsWith(":*")) {
-            var namespace = itemName.substring(0, itemName.indexOf(":"));
+        RegistrationType<Item> registrationType = new RegistrationType<Item>(itemName, net.minecraft.core.Registry.ITEM_REGISTRY);
 
-            restrictNamespace(namespace, consumer);
-            return;
-        }
-
-        var name = SkillResourceLocation.of(itemName);
-        restrictItem(name, consumer);
+        registrationType.ifNamespace(namespace -> restrictNamespace(namespace, consumer));
+        registrationType.ifName(name -> restrictItem(name, consumer));
+        registrationType.ifTag(tag -> restrictTag(tag, consumer));
     }
 
     @HideFromJS
@@ -43,9 +41,18 @@ public class RestrictionsRegistrationEventJS extends EventJS {
 
     @HideFromJS
     private void restrictNamespace(String namespace, @NotNull Consumer<RestrictionJS.Builder> consumer) {
+        ConsoleJS.SERVER.info("Creating item restrictions for mod namespace " + namespace);
         net.minecraft.core.Registry.ITEM.keySet()
                 .stream()
                 .filter(itemName -> itemName.getNamespace().equals(namespace))
                 .forEach(itemName -> restrictItem(itemName, consumer));
+    }
+
+    @HideFromJS
+    private void restrictTag(TagKey<Item> tag, @NotNull Consumer<RestrictionJS.Builder> consumer) {
+        ConsoleJS.SERVER.info("Creating item restrictions for tag " + tag);
+        net.minecraft.core.Registry.ITEM.stream()
+                .filter(item -> item.getDefaultInstance().is(tag))
+                .forEach(item -> restrictItem(ItemHelper.getItemKey(item), consumer));
     }
 }
