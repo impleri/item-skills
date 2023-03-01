@@ -82,7 +82,7 @@ ItemSkillEvents.register(event => {
 ### Caveats
 
 JEI integration does not remove recipes related to the `unconsumable` flag. It does hide the recipes from right-clicking
-on the ingredient. However, it does not remove the recipe itself -- only `unconsumable` does that.
+on the ingredient. However, it does not remove the recipe itself -- only `unproducible` does that.
 
 ## Modpacks
 
