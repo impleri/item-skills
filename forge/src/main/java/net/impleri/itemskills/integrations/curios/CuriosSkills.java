@@ -4,21 +4,12 @@ import net.impleri.itemskills.InventoryHelper;
 import net.impleri.itemskills.ItemHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.NonNullConsumer;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import top.theillusivec4.curios.api.CuriosApi;
 
-@Mod.EventBusSubscriber()
 public class CuriosSkills {
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.side == LogicalSide.SERVER && ModList.get().isLoaded("curios")) {
-            CuriosApi.getCuriosHelper().getEquippedCurios(event.player).ifPresent(handleCurios(event.player));
-        }
+    public static void onPlayerTick(Player player) {
+        CuriosApi.getCuriosHelper().getEquippedCurios(player).ifPresent(handleCurios(player));
     }
 
     private static NonNullConsumer<IItemHandlerModifiable> handleCurios(Player player) {
