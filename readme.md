@@ -54,6 +54,18 @@ ItemSkillEvents.register(event => {
       .if(player => player.cannot('skills:stage', 2));
   });
 
+  // Vanilla items cannot be used at all unless player is at stage 2 (or later)
+  event.restrict('@minecraft', restrict => {
+    restrict.everything()
+      .if(player => player.cannot('skills:stage', 2));
+  });
+
+  // Any item tagged as wool cannot be used
+  event.restrict('#minecraft:wool', restrict => {
+    restrict.everything()
+      .if(player => player.cannot('skills:stage', 2));
+  });
+
   // Bed item cannot be used at all unless player is at stage 2 (or later)
   event.restrict('minecraft:bed', restrict => {
     restrict.everything()
