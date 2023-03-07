@@ -1,9 +1,6 @@
 name: Publish
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     types:
       - closed
@@ -25,8 +22,7 @@ jobs:
 
   publish:
     uses: impleri/automatic-skills/.github/workflows/publish.yml@main
-    if: github.event.pull_request.merged == true
-    needs: bump
+    needs: build
     permissions:
       contents: write
     secrets:

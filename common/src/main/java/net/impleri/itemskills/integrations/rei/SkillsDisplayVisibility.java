@@ -7,6 +7,8 @@ import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import net.impleri.itemskills.client.ClientApi;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -41,13 +43,33 @@ public class SkillsDisplayVisibility implements DisplayVisibilityPredicate {
      * Checks every ingredient to see if any are uncraftable
      */
     private boolean hasHiddenOutput(EntryStack<?> entry) {
-        return !ClientApi.INSTANCE.isProducible(entry.castValue());
+        var value = entry.getValue();
+
+        if (value instanceof Item item) {
+            return !ClientApi.INSTANCE.isProducible(item);
+        }
+
+        if (value instanceof ItemStack stack) {
+            return !ClientApi.INSTANCE.isProducible(stack.getItem());
+        }
+
+        return false;
     }
 
     /**
      * Checks every ingredient to see if any are supposed to be hidden
      */
     private boolean hasHiddenInput(EntryStack<?> entry) {
-        return !ClientApi.INSTANCE.isConsumable(entry.castValue());
+        var value = entry.getValue();
+
+        if (value instanceof Item item) {
+            return !ClientApi.INSTANCE.isConsumable(item);
+        }
+
+        if (value instanceof ItemStack stack) {
+            return !ClientApi.INSTANCE.isConsumable(stack.getItem());
+        }
+
+        return false;
     }
 }
