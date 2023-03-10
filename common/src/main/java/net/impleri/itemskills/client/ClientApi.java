@@ -1,7 +1,7 @@
 package net.impleri.itemskills.client;
 
+import net.impleri.itemskills.ItemSkills;
 import net.impleri.itemskills.api.Restrictions;
-import net.impleri.itemskills.restrictions.Registry;
 import net.impleri.itemskills.restrictions.Restriction;
 import net.impleri.playerskills.api.RestrictionsApi;
 import net.impleri.playerskills.client.RestrictionsClient;
@@ -10,7 +10,7 @@ import net.minecraft.world.item.Item;
 import java.util.List;
 
 public class ClientApi extends RestrictionsClient<Item, Restriction> {
-    public static final ClientApi INSTANCE = new ClientApi(Registry.INSTANCE, Restrictions.INSTANCE);
+    public static final ClientApi INSTANCE = new ClientApi(ItemSkills.RESTRICTIONS, Restrictions.INSTANCE);
 
     private ClientApi(net.impleri.playerskills.restrictions.Registry<Restriction> registry, RestrictionsApi<Item, Restriction> serverApi) {
         super(registry, serverApi);

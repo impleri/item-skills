@@ -1,7 +1,7 @@
 package net.impleri.itemskills.api;
 
 import net.impleri.itemskills.ItemHelper;
-import net.impleri.itemskills.restrictions.Registry;
+import net.impleri.itemskills.ItemSkills;
 import net.impleri.itemskills.restrictions.Restriction;
 import net.impleri.playerskills.api.RestrictionsApi;
 import net.minecraft.resources.ResourceLocation;
@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 public class Restrictions extends RestrictionsApi<Item, Restriction> {
     private static final Field[] allRestrictionFields = Restriction.class.getDeclaredFields();
 
-    public static final Restrictions INSTANCE = new Restrictions(Registry.INSTANCE, allRestrictionFields);
+    public static final Restrictions INSTANCE = new Restrictions(ItemSkills.RESTRICTIONS, allRestrictionFields);
 
     private Restrictions(net.impleri.playerskills.restrictions.Registry<Restriction> registry, Field[] fields) {
         super(registry, fields);
