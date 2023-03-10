@@ -21,7 +21,7 @@ jobs:
     if: github.event.pull_request.merged == true
     needs: build
     secrets:
-      github-token: ${{ github.token }}
+      github-token: ${{ secrets.HUB_TOKEN || github.token }}
       maven-user: ${{ secrets.MAVEN_USER }}
       maven-password: ${{ secrets.MAVEN_TOKEN }}
       modrinth-id: ${{ secrets.MODRINTH_ID }}
