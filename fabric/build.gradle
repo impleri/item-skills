@@ -98,3 +98,19 @@ publishing {
         }
     }
 }
+
+unifiedPublishing {
+    project {
+        relations {
+            depends {
+                curseforge = "fabric-api"
+                modrinth = "fabric-api"
+            }
+
+            optional {
+                curseforge = "trinkets"
+                modrinth = "trinkets"
+            }
+        }
+    }
+}

@@ -98,3 +98,14 @@ publishing {
         }
     }
 }
+
+unifiedPublishing {
+    project {
+        relations {
+            optional {
+                curseforge = "curios"
+                modrinth = "curios"
+            }
+        }
+    }
+}
