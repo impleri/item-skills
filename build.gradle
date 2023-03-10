@@ -46,13 +46,13 @@ subprojects {
                     }
 
                     depends {
-                        curseforge = "kubejs"
-                        modrinth = "kubejs"
-                    }
-
-                    depends {
                         curseforge = "player-skills"
                         modrinth = "player-skills"
+                    }
+
+                    optional {
+                        curseforge = "kubejs"
+                        modrinth = "kubejs"
                     }
 
                     optional {
