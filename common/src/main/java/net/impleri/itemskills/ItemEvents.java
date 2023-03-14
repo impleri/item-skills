@@ -85,7 +85,7 @@ class ItemEvents {
         if (attacker instanceof Player player) {
             var weapon = ItemHelper.getItem(player.getMainHandItem());
 
-            if (Restrictions.INSTANCE.isHarmful(player, weapon)) {
+            if (!Restrictions.INSTANCE.isHarmful(player, weapon)) {
                 ItemSkills.LOGGER.debug("{} was about to attack {} using {} for {} damage", player.getName().getString(), entity.getName().getString(), ItemHelper.getItemKey(weapon), amount);
 
                 return EventResult.interruptFalse();
