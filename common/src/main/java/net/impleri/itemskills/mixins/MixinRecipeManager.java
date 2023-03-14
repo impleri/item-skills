@@ -1,9 +1,7 @@
 package net.impleri.itemskills.mixins;
 
-import com.mojang.datafixers.util.Pair;
 import net.impleri.itemskills.ItemSkills;
 import net.impleri.itemskills.client.ClientApi;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -24,7 +22,7 @@ public class MixinRecipeManager {
         return ClientApi.INSTANCE.isProducible(item);
     }
 
-    @Inject(method = "getRecipeFor(Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/world/Container;Lnet/minecraft/world/level/Level;)Ljava/util/Optional;", at = @At(value = "RETURN"), cancellable = true)
+    @Inject(method = "getRecipeFor", at = @At(value = "RETURN"), cancellable = true)
     public <C extends Container, T extends Recipe<C>> void onGetRecipeFor(RecipeType<T> recipeType, C container, Level level, CallbackInfoReturnable<Optional<T>> cir) {
         var value = cir.getReturnValue();
         if (value.isEmpty()) {
@@ -36,19 +34,7 @@ public class MixinRecipeManager {
         }
     }
 
-    @Inject(method = "getRecipeFor(Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/world/Container;Lnet/minecraft/world/level/Level;Lnet/minecraft/resources/ResourceLocation;)Ljava/util/Optional;", at = @At(value = "RETURN"), cancellable = true)
-    public <C extends Container, T extends Recipe<C>> void onGetSpecificRecipeFor(RecipeType<T> recipeType, C container, Level level, ResourceLocation resourceLocation, CallbackInfoReturnable<Optional<Pair<ResourceLocation, T>>> cir) {
-        var value = cir.getReturnValue();
-        if (value.isEmpty()) {
-            return;
-        }
-
-        if (!isProducible(value.get().getSecond())) {
-            cir.setReturnValue(Optional.empty());
-        }
-    }
-
-    @Inject(method = "getRecipeFor(Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/world/Container;Lnet/minecraft/world/level/Level;)Ljava/util/Optional;", at = @At(value = "RETURN"), cancellable = true)
+    @Inject(method = "getRecipesFor", at = @At(value = "RETURN"), cancellable = true)
     public <C extends Container, T extends Recipe<C>> void onGetRecipesFor(RecipeType<T> recipeType, C container, Level level, CallbackInfoReturnable<Optional<T>> cir) {
         var value = cir.getReturnValue();
         if (value.isEmpty()) {

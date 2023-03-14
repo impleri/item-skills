@@ -1,7 +1,8 @@
-package net.impleri.itemskills.integrations.jei;
+package net.impleri.itemskills.integrations.jei.forge;
 
 import me.shedaniel.rei.plugincompatibilities.api.REIPluginCompatIgnore;
 import mezz.jei.api.IModPlugin;
+import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.recipe.IFocus;
 import mezz.jei.api.recipe.RecipeIngredientRole;
@@ -23,6 +24,7 @@ import java.util.Collection;
 import java.util.List;
 
 @REIPluginCompatIgnore()
+@JeiPlugin()
 public class ItemSkillsJeiPlugin implements IModPlugin {
     private IJeiRuntime runtime;
     private final List<Item> currentUnconsumables = new ArrayList<>();
@@ -46,7 +48,7 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
 
     private void updateHidden(ClientSkillsUpdatedEvent event) {
         if (runtime == null) {
-            ItemSkills.LOGGER.warn("JE Runtime not yet available to update");
+            ItemSkills.LOGGER.warn("JEI Runtime not yet available to update");
             return;
         }
 

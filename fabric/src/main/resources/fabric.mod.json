@@ -34,16 +34,15 @@
   ],
   "depends": {
     "fabric": "*",
-    "minecraft": "1.19.2",
-    "architectury": ">=6.2.43",
-    "playerskills": ">=1.6.0"
+    "minecraft": "1.18.2",
+    "architectury": ">=4.11",
+    "playerskills": ">=0.1"
   },
   "recommends": {
     "kubejs": ""
   },
   "suggests": {
-    "roughlyenoughitems": ">=9.0.0",
-    "jei": ">=11.0.0",
-    "trinkets": ">=3.5"
+    "roughlyenoughitems": ">=8.3.0",
+    "trinkets": ">=3.3"
   }
 }

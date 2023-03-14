@@ -5,6 +5,7 @@ import net.impleri.itemskills.ItemHelper;
 import net.impleri.itemskills.ItemSkills;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 
@@ -28,7 +29,7 @@ public class ItemSkillsClient {
         if (!ClientApi.INSTANCE.isIdentifiable(item)) {
             ItemSkills.LOGGER.debug("Replacing tooltip for {}", item);
             lines.clear();
-            lines.add(Component.translatable("message.itemskills.unknown_item").withStyle(ChatFormatting.RED));
+            lines.add(new TranslatableComponent("message.itemskills.unknown_item").withStyle(ChatFormatting.RED));
         }
     }
 }
