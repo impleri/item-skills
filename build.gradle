@@ -59,11 +59,6 @@ subprojects {
                         curseforge = "roughly-enough-items"
                         modrinth = "roughly-enough-items"
                     }
-
-                    optional {
-                        curseforge = "jei"
-                        modrinth = "jei"
-                    }
                 }
 
                 var curseId = System.getenv("CURSEFORGE_ID")
