@@ -1,0 +1,1 @@
+net.impleri.itemskills.integrations.kubejs.ItemSkillsPlugin
