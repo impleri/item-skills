@@ -22,9 +22,10 @@ are set, so be sure to set actual restrictions.
 #### Allow Restriction Methods
 
 - `nothing`: shorthand to apply all "allow" restrictions
-- `craftable`: the item is craftable and recipes for crafting it are visible in REI/JEI. This will automatically
+- `producible`: the item is craftable and recipes for crafting it are visible in REI/JEI. This will automatically
   set `holdable` since it's required
-- `visible`: recipes using the item are visible in REI/JEI. This will automatically set `holdable` since it's required
+- `consumable`: recipes using the item are visible in REI/JEI. This will automatically set `holdable` since it's
+  required
 - `holdable`: the item can be picked up and held, i.e. the player can hold the item in their inventory
 - `identifiable`: the item can be identified, i.e. the player can see details in a tooltip about the item
 - `harmful`: the item can be used as a weapon (if applicable). This will automatically set `holdable` since it's
@@ -36,8 +37,8 @@ are set, so be sure to set actual restrictions.
 #### Deny Restriction Methods
 
 - `everything`: shorthand to apply the below "deny" abilities
-- `uncraftable`: the item is not craftable
-- `hidden`: recipes using the item are hidden in REI/JEI
+- `unproducible`: the item is not craftable
+- `unconsumable`: recipes using the item are hidden in REI/JEI
 - `unholdable`: the item cannot be picked up
 - `unidentifiable`: the item cannot be identified
 - `harmless`: the item cannot be used as a weapon (if applicable)
