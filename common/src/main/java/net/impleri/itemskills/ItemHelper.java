@@ -1,6 +1,7 @@
 package net.impleri.itemskills;
 
-import net.impleri.itemskills.api.Restrictions;
+import net.impleri.itemskills.restrictions.Restrictions;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -10,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
+import org.jetbrains.annotations.Nullable;
 
 public class ItemHelper {
     public static ResourceLocation getItemKey(ItemStack stack) {
@@ -48,30 +50,30 @@ public class ItemHelper {
         return getItem(item);
     }
 
-    public static boolean isHoldable(Player player, Item item) {
-        return Restrictions.INSTANCE.isHoldable(player, item);
+    public static boolean isHoldable(Player player, Item item, @Nullable BlockPos pos) {
+        return Restrictions.INSTANCE.isHoldable(player, item, pos);
     }
 
-    public static boolean isWearable(Player player, Item item) {
-        return Restrictions.INSTANCE.isWearable(player, item);
+    public static boolean isWearable(Player player, Item item, @Nullable BlockPos pos) {
+        return Restrictions.INSTANCE.isWearable(player, item, pos);
     }
 
-    public static boolean isProducible(Player player, Item item) {
-        return Restrictions.INSTANCE.isProducible(player, item);
+    public static boolean isProducible(Player player, Item item, @Nullable BlockPos pos) {
+        return Restrictions.INSTANCE.isProducible(player, item, pos);
     }
 
-    public static boolean isConsumable(Player player, Item item) {
-        return Restrictions.INSTANCE.isConsumable(player, item);
+    public static boolean isConsumable(Player player, Item item, @Nullable BlockPos pos) {
+        return Restrictions.INSTANCE.isConsumable(player, item, pos);
     }
 
-    public static boolean isIdentifiable(Player player, Item item) {
-        return Restrictions.INSTANCE.isIdentifiable(player, item);
+    public static boolean isIdentifiable(Player player, Item item, @Nullable BlockPos pos) {
+        return Restrictions.INSTANCE.isIdentifiable(player, item, pos);
     }
 
-    public static boolean isProducible(Player player, Recipe<?> recipe) {
+    public static boolean isProducible(Player player, Recipe<?> recipe, @Nullable BlockPos pos) {
         var item = recipe.getResultItem().getItem();
         ItemSkills.LOGGER.debug("Checking if {} is producible", item);
 
-        return isProducible(player, item);
+        return isProducible(player, item, pos);
     }
 }
