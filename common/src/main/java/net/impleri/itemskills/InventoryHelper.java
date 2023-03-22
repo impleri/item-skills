@@ -14,9 +14,9 @@ public class InventoryHelper {
             if (stack != null && !stack.isEmpty()) {
                 var item = ItemHelper.getItem(stack);
 
-                var isHoldable = ItemHelper.isHoldable(player, item);
+                var isHoldable = ItemHelper.isHoldable(player, item, null);
 
-                var isWearable = !wearable || ItemHelper.isWearable(player, item);
+                var isWearable = !wearable || ItemHelper.isWearable(player, item, null);
 
                 return !isHoldable || !isWearable;
             }

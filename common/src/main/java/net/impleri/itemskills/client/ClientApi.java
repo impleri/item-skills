@@ -1,18 +1,18 @@
 package net.impleri.itemskills.client;
 
 import net.impleri.itemskills.ItemSkills;
-import net.impleri.itemskills.api.Restrictions;
 import net.impleri.itemskills.restrictions.Restriction;
-import net.impleri.playerskills.api.RestrictionsApi;
+import net.impleri.itemskills.restrictions.Restrictions;
 import net.impleri.playerskills.client.RestrictionsClient;
+import net.impleri.playerskills.restrictions.Registry;
 import net.minecraft.world.item.Item;
 
 import java.util.List;
 
-public class ClientApi extends RestrictionsClient<Item, Restriction> {
+public class ClientApi extends RestrictionsClient<Item, Restriction, Restrictions> {
     public static final ClientApi INSTANCE = new ClientApi(ItemSkills.RESTRICTIONS, Restrictions.INSTANCE);
 
-    private ClientApi(net.impleri.playerskills.restrictions.Registry<Restriction> registry, RestrictionsApi<Item, Restriction> serverApi) {
+    private ClientApi(Registry<Restriction> registry, Restrictions serverApi) {
         super(registry, serverApi);
     }
 
@@ -33,31 +33,31 @@ public class ClientApi extends RestrictionsClient<Item, Restriction> {
     }
 
     public boolean isProducible(Item item) {
-        return canPlayer(item, "producible");
+        return serverApi.isProducible(getPlayer(), item, null);
     }
 
     public boolean isConsumable(Item item) {
-        return canPlayer(item, "consumable");
+        return serverApi.isConsumable(getPlayer(), item, null);
     }
 
     public boolean isHoldable(Item item) {
-        return canPlayer(item, "holdable");
+        return serverApi.isHoldable(getPlayer(), item, null);
     }
 
     public boolean isIdentifiable(Item item) {
-        return canPlayer(item, "identifiable");
+        return serverApi.isIdentifiable(getPlayer(), item, null);
     }
 
     public boolean isHarmful(Item item) {
-        return canPlayer(item, "harmful");
+        return serverApi.isHarmful(getPlayer(), item, null);
     }
 
     public boolean isWearable(Item item) {
-        return canPlayer(item, "wearable");
+        return serverApi.isWearable(getPlayer(), item, null);
     }
 
     public boolean isUsable(Item item) {
-        return canPlayer(item, "usable");
+        return serverApi.isUsable(getPlayer(), item, null);
     }
 
 }
