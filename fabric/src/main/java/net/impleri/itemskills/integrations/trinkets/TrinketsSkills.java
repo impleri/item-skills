@@ -24,7 +24,7 @@ public class TrinketsSkills {
         return (component) -> {
             component.getAllEquipped().forEach(tuple -> {
                 var stack = tuple.getB();
-                if (!ItemHelper.isWearable(player, stack.getItem())) {
+                if (!ItemHelper.isWearable(player, stack.getItem(), null)) {
                     var slot = tuple.getA();
                     slot.inventory().setItem(slot.index(), ItemStack.EMPTY);
                     InventoryHelper.moveItemIntoInventory(player, stack);
