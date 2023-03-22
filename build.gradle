@@ -27,7 +27,7 @@ subprojects {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
         mappings loom.officialMojangMappings()
 
-        modCompileOnly "me.shedaniel:REIPluginCompatibilities-forge-annotations:9+"
+        compileOnly "me.shedaniel:REIPluginCompatibilities-forge-annotations:9+"
     }
 
     if (project.name.contains("fabric") || project.name.contains("forge")) {
