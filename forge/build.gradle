@@ -32,21 +32,21 @@ dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
     modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
-    modRuntimeOnly "net.impleri:player-skills-${rootProject.minecraft_version}-forge:${rootProject.playerskills_version}"
+    modImplementation "net.impleri:player-skills-${rootProject.minecraft_version}-forge:${rootProject.playerskills_version}"
 
     modRuntimeOnly "dev.latvian.mods:kubejs-forge:${rootProject.kubejs_version}"
 
+    compileOnly "top.theillusivec4.curios:curios-forge:${rootProject.curios_version}:api"
     modRuntimeOnly "top.theillusivec4.curios:curios-forge:${rootProject.curios_version}"
-    modCompileOnly "top.theillusivec4.curios:curios-forge:${rootProject.curios_version}:api"
 
 
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-forge:${rootProject.rei_version}"
+    compileOnly "me.shedaniel:RoughlyEnoughItems-api-forge:${rootProject.rei_version}"
+    compileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-forge:${rootProject.rei_version}"
     modImplementation "me.shedaniel:RoughlyEnoughItems-forge:${rootProject.rei_version}"
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-forge:${rootProject.rei_version}"
 
-
-    modCompileOnly "mezz.jei:jei-${rootProject.minecraft_version}-forge-api:${rootProject.jei_version}"
-    modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}-forge:${rootProject.jei_version}"
+    compileOnly "mezz.jei:jei-${rootProject.minecraft_version}-common-api:${rootProject.jei_version}"
+    compileOnly "mezz.jei:jei-${rootProject.minecraft_version}-forge-api:${rootProject.jei_version}"
+    modImplementation "mezz.jei:jei-${rootProject.minecraft_version}-forge:${rootProject.jei_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
