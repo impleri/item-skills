@@ -57,7 +57,7 @@ subprojects {
 
                     optional {
                         curseforge = "roughly-enough-items"
-                        modrinth = "roughly-enough-items"
+                        modrinth = "rei"
                     }
 
                     optional {
