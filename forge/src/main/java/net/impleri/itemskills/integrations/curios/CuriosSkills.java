@@ -20,7 +20,7 @@ public class CuriosSkills {
                 for (int idx = 0; idx <= slotCount; idx++) {
                     var slot = curios.getStackInSlot(idx);
 
-                    if (!ItemHelper.isWearable(player, slot.getItem())) {
+                    if (!ItemHelper.isWearable(player, slot.getItem(), null)) {
                         var badItem = curios.extractItem(idx, slot.getCount(), false);
 
                         InventoryHelper.moveItemIntoInventory(player, badItem);

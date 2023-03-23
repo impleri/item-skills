@@ -36,7 +36,7 @@
     "fabric": "*",
     "minecraft": "1.18.2",
     "architectury": ">=4.11",
-    "playerskills": ">=0.1"
+    "playerskills": ">=1.0"
   },
   "recommends": {
     "kubejs": ""

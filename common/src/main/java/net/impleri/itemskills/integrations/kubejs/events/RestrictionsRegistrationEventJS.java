@@ -7,6 +7,7 @@ import net.impleri.itemskills.ItemHelper;
 import net.impleri.itemskills.ItemSkills;
 import net.impleri.playerskills.utils.RegistrationType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
@@ -14,6 +15,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Consumer;
 
 public class RestrictionsRegistrationEventJS extends EventJS {
+    private final MinecraftServer server;
+
+    public RestrictionsRegistrationEventJS(MinecraftServer server) {
+        this.server = server;
+    }
+
     public void restrict(String itemName, @NotNull Consumer<RestrictionJS.Builder> consumer) {
         RegistrationType<Item> registrationType = new RegistrationType<Item>(itemName, net.minecraft.core.Registry.ITEM_REGISTRY);
 
@@ -24,7 +31,7 @@ public class RestrictionsRegistrationEventJS extends EventJS {
 
     @HideFromJS
     private void restrictItem(ResourceLocation name, @NotNull Consumer<RestrictionJS.Builder> consumer) {
-        var builder = new RestrictionJS.Builder(name);
+        var builder = new RestrictionJS.Builder(name, server);
 
         consumer.accept(builder);
 

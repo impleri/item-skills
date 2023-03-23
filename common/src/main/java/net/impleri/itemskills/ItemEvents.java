@@ -5,7 +5,6 @@ import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.*;
 import dev.architectury.platform.Platform;
 import dev.architectury.utils.value.IntValue;
-import net.impleri.itemskills.api.Restrictions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.MinecraftServer;
@@ -42,7 +41,7 @@ class ItemEvents {
 
     private void onStartup(MinecraftServer minecraftServer) {
         if (Platform.isModLoaded("kubejs")) {
-            net.impleri.itemskills.integrations.kubejs.ItemSkillsPlugin.onStartup();
+            net.impleri.itemskills.integrations.kubejs.ItemSkillsPlugin.onStartup(minecraftServer);
         }
     }
 
@@ -70,7 +69,7 @@ class ItemEvents {
     private EventResult beforePlayerPickup(Player player, ItemEntity entity, ItemStack stack) {
         var item = ItemHelper.getItem(stack);
 
-        if (ItemHelper.isHoldable(player, item)) {
+        if (ItemHelper.isHoldable(player, item, null)) {
             return EventResult.pass();
         }
 
@@ -85,7 +84,7 @@ class ItemEvents {
         if (attacker instanceof Player player) {
             var weapon = ItemHelper.getItem(player.getMainHandItem());
 
-            if (!Restrictions.INSTANCE.isHarmful(player, weapon)) {
+            if (!ItemHelper.isHarmful(player, weapon, null)) {
                 ItemSkills.LOGGER.debug("{} was about to attack {} using {} for {} damage", player.getName().getString(), entity.getName().getString(), ItemHelper.getItemKey(weapon), amount);
 
                 return EventResult.interruptFalse();
@@ -98,7 +97,7 @@ class ItemEvents {
     private EventResult beforeMine(Level level, BlockPos pos, BlockState state, ServerPlayer player, @Nullable IntValue xp) {
         var tool = ItemHelper.getItem(player.getMainHandItem());
 
-        if (Restrictions.INSTANCE.isUsable(player, tool)) {
+        if (ItemHelper.isUsable(player, tool, pos)) {
             return EventResult.pass();
         }
 
@@ -110,7 +109,7 @@ class ItemEvents {
     private EventResult beforeInteractEntity(Player player, Entity entity, InteractionHand hand) {
         var tool = ItemHelper.getItemUsed(player, hand);
 
-        if (Restrictions.INSTANCE.isUsable(player, tool)) {
+        if (ItemHelper.isUsable(player, tool, null)) {
             return EventResult.pass();
         }
 
@@ -122,7 +121,7 @@ class ItemEvents {
     private CompoundEventResult<ItemStack> beforeUseItem(Player player, InteractionHand hand) {
         var tool = ItemHelper.getItemUsed(player, hand);
 
-        if (Restrictions.INSTANCE.isUsable(player, tool)) {
+        if (ItemHelper.isUsable(player, tool, null)) {
             return CompoundEventResult.pass();
         }
 
@@ -134,7 +133,7 @@ class ItemEvents {
     private EventResult beforeUseItemBlock(Player player, InteractionHand hand, BlockPos pos, Direction face) {
         var tool = ItemHelper.getItemUsed(player, hand);
 
-        if (ItemHelper.isEmptyItem(tool) || Restrictions.INSTANCE.isUsable(player, tool)) {
+        if (ItemHelper.isEmptyItem(tool) || ItemHelper.isUsable(player, tool, pos)) {
             return EventResult.pass();
         }
 
