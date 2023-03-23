@@ -9,6 +9,7 @@ import net.impleri.playerskills.utils.SkillResourceLocation;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.Item;
 
 public class RestrictionJS extends Restriction {
@@ -21,6 +22,10 @@ public class RestrictionJS extends Restriction {
                 item,
                 builder.condition,
                 builder.replacement,
+                builder.includeDimensions,
+                builder.excludeDimensions,
+                builder.includeBiomes,
+                builder.excludeBiomes,
                 builder.producible,
                 builder.consumable,
                 builder.holdable,
@@ -43,8 +48,8 @@ public class RestrictionJS extends Restriction {
         public boolean usable = true;
 
         @HideFromJS
-        public Builder(ResourceLocation id) {
-            super(id);
+        public Builder(ResourceLocation id, MinecraftServer server) {
+            super(id, server);
         }
 
         public Builder replaceWith(ResourceLocation replacement) {

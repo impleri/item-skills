@@ -12,12 +12,13 @@ the crafting result when a player tries to craft an item.
 
 ### Register
 
-We use the `ItemSkillEvents.register` ***startup*** event to register item restrictions. Registration requires a
-test (`if` or `unless`) in a callback function which uses a player skills condition object (`can` and `cannot` methods).
-If the player ***matches*** the criteria, the following restrictions are applied. This can cascade with other
-restrictions, so any restrictions which disallow an action will trump any which do allow it. We also expose these
-methods to indicate what restrictions are in place for when a player meets that condition. By default, no restrictions
-are set, so be sure to set actual restrictions.
+We use the `itemSkills.register` event to register item restrictions. If the player ***matches*** the criteria, the
+following restrictions are applied. This can cascade with other restrictions, so any restrictions which disallow an
+action will trump any which do allow it. We also expose these methods to indicate what restrictions are in place for
+when a player meets that condition. By default, no restrictions are set, so be sure to set actual restrictions.
+
+As an extension to PlayerSkills, all
+the [common restriction facets](https://github.com/impleri/player-skills#kubejs-restrictions-api) are usable here.
 
 #### Allow Restriction Methods
 
@@ -47,7 +48,7 @@ are set, so be sure to set actual restrictions.
 ### Examples
 
 ```js
-ItemSkillEvents.register(event => {
+onEvent('itemSkills.register', (event) => {
   // Vanilla items cannot be used at all unless player is at stage 2 (or later)
   event.restrict('minecraft:*', restrict => {
     restrict.everything()

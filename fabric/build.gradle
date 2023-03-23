@@ -35,14 +35,14 @@ dependencies {
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
 
-    modRuntimeOnly "net.impleri:player-skills-${rootProject.minecraft_version}-fabric:${rootProject.playerskills_version}"
+    modImplementation "net.impleri:player-skills-${rootProject.minecraft_version}-fabric:${rootProject.playerskills_version}"
 
     modRuntimeOnly "dev.latvian.mods:kubejs-fabric:${rootProject.kubejs_version}"
 
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProject.rei_version}"
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rootProject.rei_version}"
-    
+
     modImplementation "dev.emi:trinkets:${rootProject.trinkets_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
