@@ -37,7 +37,7 @@ side = "BOTH"
 [[dependencies.itemskills]]
 modId = "playerskills"
 mandatory = true
-versionRange = "[1.7,)"
+versionRange = "[1.7.2,)"
 ordering = "NONE"
 side = "BOTH"
 
@@ -58,6 +58,6 @@ side = "BOTH"
 [[dependencies.itemskills]]
 modId = "architectury"
 mandatory = true
-versionRange = "[6.2.43,)"
+versionRange = "[6.2.0,)"
 ordering = "AFTER"
 side = "BOTH"
