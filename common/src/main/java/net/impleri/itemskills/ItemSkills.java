@@ -11,10 +11,15 @@ public class ItemSkills {
 
     public static Registry<Restriction> RESTRICTIONS = new Registry<>(MOD_ID);
 
-    private static final ItemEvents EVENT_HANDLER = new ItemEvents();
+    private static final ItemEvents INSTANCE = new ItemEvents();
 
     public static void init() {
         LOGGER.info("Loaded Item Skills");
-        EVENT_HANDLER.registerEventHandlers();
+        INSTANCE.registerEventHandlers();
+        INSTANCE.registerCommands();
+    }
+
+    public static boolean toggleDebug() {
+        return LOGGER.toggleDebug();
     }
 }

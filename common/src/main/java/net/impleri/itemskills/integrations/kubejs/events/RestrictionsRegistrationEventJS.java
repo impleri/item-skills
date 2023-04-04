@@ -1,11 +1,12 @@
 package net.impleri.itemskills.integrations.kubejs.events;
 
-import dev.latvian.mods.kubejs.server.ServerEventJS;
 import dev.latvian.mods.kubejs.util.ConsoleJS;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import net.impleri.itemskills.ItemHelper;
 import net.impleri.itemskills.ItemSkills;
-import net.impleri.playerskills.utils.RegistrationType;
+import net.impleri.itemskills.restrictions.Restriction;
+import net.impleri.playerskills.restrictions.AbstractRegistrationEventJS;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.TagKey;
@@ -13,22 +14,15 @@ import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
-public class RestrictionsRegistrationEventJS extends ServerEventJS {
+public class RestrictionsRegistrationEventJS extends AbstractRegistrationEventJS<Item, Restriction, RestrictionJS.Builder> {
     public RestrictionsRegistrationEventJS(MinecraftServer s) {
-        super(s);
-    }
-
-    public void restrict(String itemName, @NotNull Consumer<RestrictionJS.Builder> consumer) {
-        RegistrationType<Item> registrationType = new RegistrationType<Item>(itemName, net.minecraft.core.Registry.ITEM_REGISTRY);
-
-        registrationType.ifNamespace(namespace -> restrictNamespace(namespace, consumer));
-        registrationType.ifName(name -> restrictItem(name, consumer));
-        registrationType.ifTag(tag -> restrictTag(tag, consumer));
+        super(s, "item", Registry.ITEM);
     }
 
     @HideFromJS
-    private void restrictItem(ResourceLocation name, @NotNull Consumer<RestrictionJS.Builder> consumer) {
+    protected void restrictOne(ResourceLocation name, @NotNull Consumer<RestrictionJS.Builder> consumer) {
         var builder = new RestrictionJS.Builder(name, server);
 
         consumer.accept(builder);
@@ -40,24 +34,18 @@ public class RestrictionsRegistrationEventJS extends ServerEventJS {
         }
 
         var restriction = builder.createObject(item);
-        ConsoleJS.SERVER.info("Created item restriction for " + item);
         ItemSkills.RESTRICTIONS.add(name, restriction);
+
+        logRestrictionCreation(restriction, name);
     }
 
-    @HideFromJS
-    private void restrictNamespace(String namespace, @NotNull Consumer<RestrictionJS.Builder> consumer) {
-        ConsoleJS.SERVER.info("Creating item restrictions for mod namespace " + namespace);
-        net.minecraft.core.Registry.ITEM.keySet()
-                .stream()
-                .filter(itemName -> itemName.getNamespace().equals(namespace))
-                .forEach(itemName -> restrictItem(itemName, consumer));
+    @Override
+    public Predicate<Item> isTagged(TagKey<Item> tag) {
+        return item -> item.getDefaultInstance().is(tag);
     }
 
-    @HideFromJS
-    private void restrictTag(TagKey<Item> tag, @NotNull Consumer<RestrictionJS.Builder> consumer) {
-        ConsoleJS.SERVER.info("Creating item restrictions for tag " + tag);
-        net.minecraft.core.Registry.ITEM.stream()
-                .filter(item -> item.getDefaultInstance().is(tag))
-                .forEach(item -> restrictItem(ItemHelper.getItemKey(item), consumer));
+    @Override
+    public ResourceLocation getName(Item resource) {
+        return ItemHelper.getItemKey(resource);
     }
 }
