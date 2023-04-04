@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BasicSkillsFiltering {
+public class ItemSkillsFiltering {
     private static BasicFilteringRule.MarkDirty filteringRule;
 
     private static final List<Item> currentlyFiltered = new ArrayList<>();
