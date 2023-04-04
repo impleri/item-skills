@@ -18,7 +18,7 @@ public class Restrictions extends RestrictionsApi<Item, Restriction> {
     public static final Restrictions INSTANCE = new Restrictions(ItemSkills.RESTRICTIONS, allRestrictionFields);
 
     private Restrictions(net.impleri.playerskills.restrictions.Registry<Restriction> registry, Field[] fields) {
-        super(registry, fields);
+        super(registry, fields, ItemSkills.LOGGER);
     }
 
     @Override
