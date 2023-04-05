@@ -41,6 +41,7 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
     public void onRuntimeAvailable(@NotNull IJeiRuntime jeiRuntime) {
         runtime = jeiRuntime;
 
+        processUnconsumables();
         processUnproducibles();
     }
 
