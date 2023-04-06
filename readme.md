@@ -117,8 +117,8 @@ ItemSkillEvents.register(event => {
 
 JEI integration does not remove recipes related to the `unconsumable` flag. It does hide the recipes from right-clicking
 on the ingredient. However, it does not remove the recipe itself -- only `unproducible` does that. That is, a crafty
-player could view a recipe that produces the item, then right click on the produced item to see what recipes it can be
-with which it can be consumed.
+player could view a recipe that produces the item, then right click on the produced item to see what recipes with which
+it can be consumed.
 
 ## Developers
 
