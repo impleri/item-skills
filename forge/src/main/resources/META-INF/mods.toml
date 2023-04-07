@@ -37,7 +37,7 @@ side = "BOTH"
 [[dependencies.itemskills]]
 modId = "playerskills"
 mandatory = true
-versionRange = "[1.7.2,)"
+versionRange = "[1.7.3,)"
 ordering = "NONE"
 side = "BOTH"
 
