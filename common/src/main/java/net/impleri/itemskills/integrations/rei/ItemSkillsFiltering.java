@@ -44,8 +44,11 @@ public class ItemSkillsFiltering {
     }
 
     public static void register(BasicFilteringRule<?> rule) {
-        filteringRule = rule.hide(() -> ClientApi.INSTANCE.getHidden().stream()
-                .map(item -> EntryStacks.of(item).cast())
-                .collect(Collectors.toList()));
+        filteringRule = rule.hide(() -> {
+            ItemSkills.LOGGER.debug("Updating REI filters");
+            return currentlyFiltered.stream()
+                    .map(item -> EntryStacks.of(item).cast())
+                    .collect(Collectors.toList());
+        });
     }
 }

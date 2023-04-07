@@ -6,6 +6,7 @@ import me.shedaniel.rei.api.client.registry.display.visibility.DisplayVisibility
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
+import net.impleri.itemskills.ItemSkills;
 import net.impleri.itemskills.client.ClientApi;
 import net.impleri.playerskills.client.events.ClientSkillsUpdatedEvent;
 import net.minecraft.world.item.Item;
@@ -25,6 +26,8 @@ public class SkillsDisplayVisibility implements DisplayVisibilityPredicate {
     }
 
     private void clearCache(ClientSkillsUpdatedEvent clientSkillsUpdatedEvent) {
+        ItemSkills.LOGGER.debug("Clearing REI Visibility caches");
+
         producibility.clear();
         consumability.clear();
     }
