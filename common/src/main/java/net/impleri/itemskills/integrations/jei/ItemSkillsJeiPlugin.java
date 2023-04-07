@@ -59,7 +59,7 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
             unproducibles.clear();
         }
 
-        ItemSkills.LOGGER.info("Updating JEI item restrictions (forced? {})", force);
+        ItemSkills.LOGGER.debug("Updating JEI item restrictions (forced? {})", force);
         processUnconsumables();
         processUnproducibles();
     }
