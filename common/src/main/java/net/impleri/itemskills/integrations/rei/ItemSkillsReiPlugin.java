@@ -8,7 +8,7 @@ import net.impleri.playerskills.client.events.ClientSkillsUpdatedEvent;
 public class ItemSkillsReiPlugin implements REIClientPlugin {
     public ItemSkillsReiPlugin() {
         // Subscribe to client skill updates to refresh basic filtering rules
-        ClientSkillsUpdatedEvent.EVENT.register(BasicSkillsFiltering::updateHidden);
+        ClientSkillsUpdatedEvent.EVENT.register(ItemSkillsFiltering::updateHidden);
     }
 
     @Override
@@ -18,6 +18,6 @@ public class ItemSkillsReiPlugin implements REIClientPlugin {
 
     @Override
     public void registerBasicEntryFiltering(BasicFilteringRule<?> rule) {
-        BasicSkillsFiltering.register(rule);
+        ItemSkillsFiltering.register(rule);
     }
 }

@@ -43,7 +43,6 @@ dependencies {
     compileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-forge:${rootProject.rei_version}"
     modImplementation "me.shedaniel:RoughlyEnoughItems-forge:${rootProject.rei_version}"
 
-
     compileOnly "mezz.jei:jei-${rootProject.minecraft_version}:${rootProject.jei_version}:api"
     modImplementation "mezz.jei:jei-${rootProject.minecraft_version}:${rootProject.jei_version}"
 
