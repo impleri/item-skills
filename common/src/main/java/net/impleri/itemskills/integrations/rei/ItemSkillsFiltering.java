@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BasicSkillsFiltering {
+public class ItemSkillsFiltering {
     private static BasicFilteringRule.MarkDirty filteringRule;
 
     private static final List<Item> currentlyFiltered = new ArrayList<>();
@@ -44,7 +44,7 @@ public class BasicSkillsFiltering {
     }
 
     public static void register(BasicFilteringRule<?> rule) {
-        filteringRule = rule.hide(() -> ClientApi.INSTANCE.getHidden().stream()
+        filteringRule = rule.hide(() -> currentlyFiltered.stream()
                 .map(item -> EntryStacks.of(item).cast())
                 .collect(Collectors.toList()));
     }

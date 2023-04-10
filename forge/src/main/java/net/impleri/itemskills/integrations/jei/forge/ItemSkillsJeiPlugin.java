@@ -27,8 +27,8 @@ import java.util.List;
 @JeiPlugin()
 public class ItemSkillsJeiPlugin implements IModPlugin {
     private IJeiRuntime runtime;
-    private final List<Item> currentUnconsumables = new ArrayList<>();
-    private final List<Item> currentUnproducibles = new ArrayList<>();
+    private final List<Item> unconsumables = new ArrayList<>();
+    private final List<Item> unproducibles = new ArrayList<>();
 
     public ItemSkillsJeiPlugin() {
         ClientSkillsUpdatedEvent.EVENT.register(this::updateHidden);
@@ -43,7 +43,7 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
     public void onRuntimeAvailable(@NotNull IJeiRuntime jeiRuntime) {
         runtime = jeiRuntime;
 
-        processUnproducibles();
+        refresh(true);
     }
 
     private void updateHidden(ClientSkillsUpdatedEvent event) {
@@ -52,8 +52,19 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
             return;
         }
 
-        processUnconsumables();
+        refresh(event.force());
+    }
+
+    private void refresh(boolean force) {
+        if (force) {
+            unconsumables.clear();
+            unproducibles.clear();
+        }
+
+        ItemSkills.LOGGER.debug("Updating JEI item restrictions (forced? {})", force);
+
         processUnproducibles();
+        processUnconsumables();
     }
 
     private void processUnconsumables() {
@@ -61,41 +72,41 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
         var next = ClientApi.INSTANCE.getUnconsumable();
 
         // Nothing on either list, so don't bother
-        if (currentUnconsumables.size() == 0 && next.size() == 0) {
+        if (unconsumables.size() == 0 && next.size() == 0) {
             ItemSkills.LOGGER.debug("No changes in restrictions");
             return;
         }
 
         ItemSkills.LOGGER.debug("Found {} unconsumable item(s)", next.size());
 
-        var toShow = ListDiff.getMissing(currentUnconsumables, next);
+        var toShow = ListDiff.getMissing(unconsumables, next);
         if (toShow.size() > 0) {
             ItemSkills.LOGGER.debug("Showing {} item(s) based on consumables: {}", toShow.size(), toShow.stream().map(ItemHelper::getItemKey).toList().toString());
             manager.addIngredientsAtRuntime(VanillaTypes.ITEM_STACK, getItemStack(toShow));
         }
 
-        var toHide = ListDiff.getMissing(next, currentUnconsumables);
+        var toHide = ListDiff.getMissing(next, unconsumables);
         if (toHide.size() > 0) {
             ItemSkills.LOGGER.debug("Hiding {} item(s) based on consumables: {}", toHide.size(), toHide.stream().map(ItemHelper::getItemKey).toList().toString());
             manager.removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, getItemStack(toHide));
         }
 
-        currentUnconsumables.clear();
-        currentUnconsumables.addAll(next);
+        unconsumables.clear();
+        unconsumables.addAll(next);
     }
 
     private void processUnproducibles() {
         var next = ClientApi.INSTANCE.getUnproducible();
 
         // Nothing on either list, so don't bother
-        if (currentUnproducibles.size() == 0 && next.size() == 0) {
+        if (unproducibles.size() == 0 && next.size() == 0) {
             ItemSkills.LOGGER.debug("No changes in restrictions");
             return;
         }
 
         ItemSkills.LOGGER.debug("Found {} unproducible item(s)", next.size());
 
-        var toShow = ListDiff.getMissing(currentUnproducibles, next);
+        var toShow = ListDiff.getMissing(unproducibles, next);
 
         if (toShow.size() > 0) {
             var foci = getFociFor(toShow);
@@ -106,7 +117,7 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
             types.forEach(type -> showRecipesForType(type, foci));
         }
 
-        var toHide = ListDiff.getMissing(next, currentUnproducibles);
+        var toHide = ListDiff.getMissing(next, unproducibles);
 
         if (toHide.size() > 0) {
             var foci = getFociFor(toHide);
@@ -117,8 +128,8 @@ public class ItemSkillsJeiPlugin implements IModPlugin {
             types.forEach(type -> hideRecipesForType(type, foci));
         }
 
-        currentUnproducibles.clear();
-        currentUnproducibles.addAll(next);
+        unproducibles.clear();
+        unproducibles.addAll(next);
     }
 
     private List<IFocus<ItemStack>> getFociFor(List<Item> items) {

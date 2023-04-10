@@ -1,6 +1,5 @@
 package net.impleri.itemskills.mixins;
 
-import net.impleri.itemskills.ItemSkills;
 import net.impleri.itemskills.client.ClientApi;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -20,7 +19,6 @@ import java.util.Optional;
 public class MixinRecipeManager {
     private boolean isProducible(Recipe<?> recipe) {
         var item = recipe.getResultItem().getItem();
-        ItemSkills.LOGGER.info("Checking if {} is producible", item);
 
         var hasUncomsumable = recipe.getIngredients().stream()
                 .map(Ingredient::getItems)

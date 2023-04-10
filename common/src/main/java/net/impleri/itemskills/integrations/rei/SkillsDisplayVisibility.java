@@ -17,16 +17,16 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public class SkillsDisplayVisibility implements DisplayVisibilityPredicate {
-    private final Map<Item, Boolean> hiddenProducibles = new HashMap<>();
-    private final Map<Item, Boolean> hiddenConsumables = new HashMap<>();
+    private final Map<Item, Boolean> producibility = new HashMap<>();
+    private final Map<Item, Boolean> consumability = new HashMap<>();
 
     public SkillsDisplayVisibility() {
         ClientSkillsUpdatedEvent.EVENT.register(this::clearCache);
     }
 
     private void clearCache(ClientSkillsUpdatedEvent clientSkillsUpdatedEvent) {
-        hiddenProducibles.clear();
-        hiddenConsumables.clear();
+        producibility.clear();
+        consumability.clear();
     }
 
     @Override
@@ -58,7 +58,19 @@ public class SkillsDisplayVisibility implements DisplayVisibilityPredicate {
      * Checks every ingredient to see if any are uncraftable
      */
     private boolean isntProducible(Item item) {
-        return !hiddenProducibles.computeIfAbsent(item, ClientApi.INSTANCE::isProducible);
+        return !producibility.computeIfAbsent(item, ClientApi.INSTANCE::isProducible);
+    }
+
+    private boolean isntConsumable(Item item) {
+        return !consumability.computeIfAbsent(item, ClientApi.INSTANCE::isConsumable);
+    }
+
+    private boolean isFilteredAs(Item item, Predicate<Item> predicate) {
+        return predicate.test(item);
+    }
+
+    private boolean isFilteredAs(ItemStack stack, Predicate<Item> predicate) {
+        return !stack.isEmpty() && predicate.test(stack.getItem());
     }
 
     private boolean hasHiddenOutput(EntryStack<?> entry) {
@@ -69,18 +81,14 @@ public class SkillsDisplayVisibility implements DisplayVisibilityPredicate {
         var value = entry.getValue();
 
         if (value instanceof Item item) {
-            return isntProducible(item);
+            return isFilteredAs(item, this::isntProducible);
         }
 
         if (value instanceof ItemStack stack) {
-            return !((ItemStack) value).isEmpty() && isntProducible(stack.getItem());
+            return isFilteredAs(stack, this::isntProducible);
         }
 
         return false;
-    }
-
-    private boolean isntConsumable(Item item) {
-        return !hiddenConsumables.computeIfAbsent(item, ClientApi.INSTANCE::isConsumable);
     }
 
     /**
@@ -94,11 +102,11 @@ public class SkillsDisplayVisibility implements DisplayVisibilityPredicate {
         var value = entry.getValue();
 
         if (value instanceof Item item) {
-            return isntConsumable(item);
+            return isFilteredAs(item, this::isntConsumable);
         }
 
         if (value instanceof ItemStack stack) {
-            return !((ItemStack) value).isEmpty() && isntConsumable(stack.getItem());
+            return isFilteredAs(stack, this::isntConsumable);
         }
 
         return false;
