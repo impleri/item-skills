@@ -31,7 +31,11 @@ public class Restrictions extends RestrictionsApi<Item, Restriction> {
         return (Item target) -> target == item;
     }
 
-    private boolean canHelper(Player player, Item item, @Nullable BlockPos pos, String fieldName) {
+    private boolean canHelper(@Nullable Player player, Item item, @Nullable BlockPos pos, String fieldName) {
+        if (player == null) {
+            return true;
+        }
+
         var dimension = player.getLevel().dimension().location();
         var actualPos = pos == null ? player.getOnPos() : pos;
         var biome = player.getLevel().getBiome(actualPos).unwrapKey().orElseThrow().location();
@@ -39,31 +43,31 @@ public class Restrictions extends RestrictionsApi<Item, Restriction> {
         return canPlayer(player, item, dimension, biome, fieldName);
     }
 
-    public boolean isProducible(Player player, Item item, @Nullable BlockPos pos) {
+    public boolean isProducible(@Nullable Player player, Item item, @Nullable BlockPos pos) {
         return canHelper(player, item, pos, "producible");
     }
 
-    public boolean isConsumable(Player player, Item item, @Nullable BlockPos pos) {
+    public boolean isConsumable(@Nullable Player player, Item item, @Nullable BlockPos pos) {
         return canHelper(player, item, pos, "consumable");
     }
 
-    public boolean isHoldable(Player player, Item item, @Nullable BlockPos pos) {
+    public boolean isHoldable(@Nullable Player player, Item item, @Nullable BlockPos pos) {
         return canHelper(player, item, pos, "holdable");
     }
 
-    public boolean isIdentifiable(Player player, Item item, @Nullable BlockPos pos) {
+    public boolean isIdentifiable(@Nullable Player player, Item item, @Nullable BlockPos pos) {
         return canHelper(player, item, pos, "identifiable");
     }
 
-    public boolean isHarmful(Player player, Item item, @Nullable BlockPos pos) {
+    public boolean isHarmful(@Nullable Player player, Item item, @Nullable BlockPos pos) {
         return canHelper(player, item, pos, "harmful");
     }
 
-    public boolean isWearable(Player player, Item item, @Nullable BlockPos pos) {
+    public boolean isWearable(@Nullable Player player, Item item, @Nullable BlockPos pos) {
         return canHelper(player, item, pos, "wearable");
     }
 
-    public boolean isUsable(Player player, Item item, @Nullable BlockPos pos) {
+    public boolean isUsable(@Nullable Player player, Item item, @Nullable BlockPos pos) {
         return canHelper(player, item, pos, "usable");
     }
 }
