@@ -35,14 +35,14 @@
   "depends": {
     "fabric": "*",
     "minecraft": "1.18.2",
-    "architectury": ">=5.0",
+    "architectury": ">=4.0",
     "playerskills": ">=1.0.2"
   },
   "recommends": {
     "kubejs": ""
   },
   "suggests": {
-    "roughlyenoughitems": ">=8.3.0",
-    "trinkets": ">=3.3"
+    "roughlyenoughitems": ">=8.0",
+    "trinkets": ">=3.0"
   }
 }
