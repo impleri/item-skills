@@ -7,7 +7,8 @@ is very similar to Item Stages.
 [![Modrinth](https://img.shields.io/modrinth/dt/item-skills?color=bcdeb7&label=%20&logo=modrinth&logoColor=096765&style=plastic)](https://modrinth.com/mod/item-skills)
 [![MIT license](https://img.shields.io/github/license/impleri/item-skills?color=bcdeb7&label=Source&logo=github&style=flat)](https://github.com/impleri/item-skills)
 [![Discord](https://img.shields.io/discord/1093178610950623233?color=096765&label=Community&logo=discord&logoColor=bcdeb7&style=plastic)](https://discord.com/invite/avxJgbaUmG)
-[![Maven](https://img.shields.io/maven-metadata/v?color=096765&label=%20&logo=gradle&logoColor=bcdeb7&metadataUrl=https%3A%2F%2Fmaven.impleri.org%2Fminecraft%2Fnet%2Fimpleri%2Fitem-skills-1.19.2%2Fmaven-metadata.xml&style=flat)](https://github.com/impleri/item-skills#developers)
+[![1.19.2](https://img.shields.io/maven-metadata/v?label=1.19.2&color=096765&metadataUrl=https%3A%2F%2Fmaven.impleri.org%2Fminecraft%2Fnet%2Fimpleri%2Fitem-skills-1.19.2%2Fmaven-metadata.xml&style=flat)](https://github.com/impleri/item-skills#developers)
+[![1.18.2](https://img.shields.io/maven-metadata/v?label=1.18.2&color=096765&metadataUrl=https%3A%2F%2Fmaven.impleri.org%2Fminecraft%2Fnet%2Fimpleri%2Fitem-skills-1.18.2%2Fmaven-metadata.xml&style=flat)](https://github.com/impleri/item-skills#developers)
 
 ### xSkills Mods
 
