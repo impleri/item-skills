@@ -51,6 +51,6 @@ side = "BOTH"
 [[dependencies.itemskills]]
 modId = "architectury"
 mandatory = true
-versionRange = "[5.0,)"
+versionRange = "[4.0,)"
 ordering = "AFTER"
 side = "BOTH"
