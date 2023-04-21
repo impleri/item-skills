@@ -4,7 +4,7 @@ import dev.latvian.mods.kubejs.RegistryObjectBuilderTypes;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import net.impleri.itemskills.ItemHelper;
 import net.impleri.itemskills.restrictions.Restriction;
-import net.impleri.playerskills.restrictions.AbstractRestrictionBuilder;
+import net.impleri.playerskills.integration.kubejs.api.AbstractRestrictionBuilder;
 import net.impleri.playerskills.utils.SkillResourceLocation;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
