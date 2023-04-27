@@ -36,8 +36,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 class ItemEvents {
-    private static final int TICK_DELAY = 20; // 1/second
-
     public void registerEventHandlers() {
         LifecycleEvent.SERVER_STARTING.register(this::onStartup);
         TickEvent.PLAYER_POST.register(this::onPlayerTick);
@@ -69,13 +67,6 @@ class ItemEvents {
 
     private void onPlayerTick(Player player) {
         if (player.getLevel().isClientSide) {
-            return;
-        }
-
-        var server = player.getServer();
-
-        // Only run this once per tick delay
-        if (server != null && server.getTickCount() % TICK_DELAY != 0) {
             return;
         }
 
