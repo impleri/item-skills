@@ -32,6 +32,9 @@ public class Restrictions extends RestrictionsApi<Item, Restriction> {
     }
 
     private boolean canHelper(Player player, Item item, @Nullable BlockPos pos, String resource) {
+        if (player == null) {
+            return false;
+        }
         var dimension = player.getLevel().dimension().location();
         var actualPos = pos == null ? player.getOnPos() : pos;
         var biome = player.getLevel().getBiome(actualPos).unwrapKey().orElseThrow().location();
