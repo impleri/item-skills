@@ -9,7 +9,7 @@ version = "${version}"
 displayName = "Item Skills"
 authors = "impleri"
 description = '''
-A library mod that exposes KubeJS methods to restrict crafting recipes and players' ability to pick up restricted items.
+A library mod to control how players interact with items using player-specific skills.
 '''
 #logoFile = ""
 

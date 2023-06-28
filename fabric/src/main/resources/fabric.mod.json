@@ -3,7 +3,7 @@
   "id": "itemskills",
   "version": "${version}",
   "name": "Item Skills",
-  "description": "A library mod that exposes KubeJS methods to restrict recipes as well as REI and JEI integrations.",
+  "description": "A library mod to control how players interact with items using player-specific skills.",
   "authors": [
     "impleri"
   ],
