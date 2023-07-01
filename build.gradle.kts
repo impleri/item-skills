@@ -9,7 +9,7 @@ plugins {
   `maven-publish`
   kotlin("jvm") version "1.8.10"
   id("architectury-plugin") version "3.4+"
-  id("dev.architectury.loom") version "1.0+" apply false
+  id("dev.architectury.loom") version "1.2+" apply false
   id("com.github.johnrengelman.shadow") version "7.1.2" apply false
   id("me.shedaniel.unified-publishing") version "0.1.+" apply false
   id("com.github.jmongard.git-semver-plugin") version "0.4+"
@@ -144,7 +144,7 @@ project(":common") {
 
   configure<PublishingExtension> {
     publications {
-      create<MavenPublication>("maven${project.name.capitalize()}") {
+      create<MavenPublication>("maven${project.name.replaceFirstChar { it.uppercaseChar() }}") {
         artifactId = modId
         groupId = project.group.toString()
         version = "$minecraftVersion-${project.version}"
@@ -169,7 +169,7 @@ for (platform in platforms) {
 
     configure<PublishingExtension> {
       publications {
-        create<MavenPublication>("maven${project.name.capitalize()}") {
+        create<MavenPublication>("maven${project.name.replaceFirstChar { it.uppercaseChar() }}") {
           artifactId = modId
           groupId = project.group.toString()
           version = "$minecraftVersion-${project.name}-${project.version}"
@@ -181,7 +181,7 @@ for (platform in platforms) {
 
     configure<UnifiedPublishingExtension> {
       project {
-        displayName.set("[${project.name.capitalize()} $minecraftVersion] v$buildVersion")
+        displayName.set("[${project.name.replaceFirstChar { it.uppercaseChar() }} $minecraftVersion] v$buildVersion")
         gameVersions.add(minecraftVersion)
         gameLoaders.add(project.name)
 
@@ -244,7 +244,7 @@ for (platform in platforms) {
     configurations {
       compileClasspath.get().extendsFrom(common)
       runtimeClasspath.get().extendsFrom(common)
-      getByName("development${platform.capitalize()}").extendsFrom(common)
+      getByName("development${platform.replaceFirstChar { it.uppercaseChar() }}").extendsFrom(common)
     }
 
     dependencies {
@@ -252,7 +252,7 @@ for (platform in platforms) {
       shadowCommon(
         project(
           path = ":common",
-          configuration = "transformProduction${platform.capitalize()}",
+          configuration = "transformProduction${platform.replaceFirstChar { it.uppercaseChar() }}",
         ),
       ) { isTransitive = false }
     }

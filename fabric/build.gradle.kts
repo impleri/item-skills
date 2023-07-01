@@ -62,5 +62,7 @@ dependencies {
   modCompileOnly("mezz.jei:jei-$minecraftVersion-fabric-api:$jeiVersion")
   modRuntimeOnly("mezz.jei:jei-$minecraftVersion-fabric:$jeiVersion")
 
-  modImplementation("dev.emi:trinkets:$trinketsVersion")
+  // TODO: Temorarily add this dependency until we can update to 1.20 which has the fix to bundle it correctly for trinkets
+  modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.0.0-beta.1")
+  modApi("dev.emi:trinkets:$trinketsVersion")
 }

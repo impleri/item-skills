@@ -38,7 +38,7 @@ object ItemSkillsFiltering {
     filteringRule = rule.hide {
       ItemSkills.LOGGER.debug("Updating REI filters")
 
-      currentlyFiltered.map { EntryStacks.of(it).cast<Any?>() }
+      currentlyFiltered.map { EntryStacks.of(it) }
     }
   }
 }

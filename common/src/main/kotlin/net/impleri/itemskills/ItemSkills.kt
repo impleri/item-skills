@@ -221,13 +221,11 @@ class ItemSkills {
     if (ItemRestriction.isDefaultItem(tool) || ItemRestriction.canUse(player, tool, pos)) {
       return EventResult.pass()
     }
-    LOGGER.debug(
-      "${player.name} is about to interact with block ${player.level.getBlockState(pos).block.name} using ${
-        ItemRestriction.getName(
-          tool,
-        )
-      }",
-    )
+
+    val blockName = player.level.getBlockState(pos).block.name
+    val itemName = ItemRestriction.getName(tool)
+    LOGGER.debug("${player.name} is about to interact with block $blockName using $itemName")
+
     return EventResult.interruptFalse()
   }
 

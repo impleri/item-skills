@@ -16,13 +16,13 @@ dependencies {
   modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion")
   modApi("dev.architectury:architectury:$architecturyVersion")
 
-  compileOnly("dev.latvian.mods:kubejs:$kubejsVersion")
-  compileOnly("com.blamejared.crafttweaker:CraftTweaker-common-$minecraftVersion:$craftTweakerVersion")
+  modCompileOnly("dev.latvian.mods:kubejs:$kubejsVersion")
+  modCompileOnly("com.blamejared.crafttweaker:CraftTweaker-common-$minecraftVersion:$craftTweakerVersion")
 
-  modImplementation("net.impleri:playerskills:$minecraftVersion-$playerskillsVersion")
+  modCompileOnly("net.impleri:playerskills:$minecraftVersion-$playerskillsVersion")
 
   modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:$reiVersion")
   modCompileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin:$reiVersion")
 
-  compileOnly("mezz.jei:jei-$minecraftVersion-common-api:$jeiVersion")
+  modCompileOnly("mezz.jei:jei-$minecraftVersion-common-api:$jeiVersion")
 }
